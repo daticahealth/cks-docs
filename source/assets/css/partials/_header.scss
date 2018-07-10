@@ -6,26 +6,40 @@
     position: absolute;
     top: 1.5rem;
     left: 0;
+    @media all and (max-width: 991px){
+      position: relative;
+    }
+    @media all and (max-width: 767px){
+      position: relative;
+    }
   }
   .tagline{
     display: inline-block;
     color: $color_white;
     margin: 2.3rem 0 0 2rem;
     font-weight: 200;
+    @media all and (max-width: 991px){
+      display: none;
+    }
   }
-  nav{
-    margin: 2.3rem 0 0 0;
-    a{
-      display: inline-block;
-      opacity: 0.65;
-      color: $color_white;
-      margin: 0 1rem 0 0;
-      font-weight: 200;
-      &:hover{
-        opacity: 1;
-      }
-      &:last-of-type{
-        margin: 0 0 0 0;
+  .nav{
+    @media all and (max-width: 767px){
+      display: none;
+    }
+    nav{
+      margin: 2.3rem 0 0 0;
+      a{
+        display: inline-block;
+        opacity: 0.65;
+        color: $color_white;
+        margin: 0 1rem 0 0;
+        font-weight: 200;
+        &:hover{
+          opacity: 1;
+        }
+        &:last-of-type{
+          margin: 0 0 0 0;
+        }
       }
     }
   }
@@ -40,6 +54,14 @@
     display: inline-block;
     position: relative;
     box-shadow: 0px 2px 3px rgba(46, 40, 119, 0.3);
+    @media all and (max-width: 767px){
+      padding: 20px;
+    }
+    span{
+      @media all and (max-width: 767px){
+        display: none;
+      }
+    }
     &:hover{
       background-color: lighten($color_light-gray, 4%);
     }
@@ -49,6 +71,9 @@
       max-width: 100%;
       top: 3px;
       left: 13px;
+      @media all and (max-width: 767px){
+        left: 3px;
+      }
     }
   }
 }

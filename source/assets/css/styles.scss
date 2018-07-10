@@ -5,9 +5,10 @@
 @import "partials/colors";
 
 // Main Styles
-@import "partials/main-nav";
+@import "partials/header";
 @import "partials/left-nav";
 @import "partials/content";
+@import "partials/mobile";
 body{
   font-family: $sans;
   font-size: 1rem;

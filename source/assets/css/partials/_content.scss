@@ -1,6 +1,11 @@
 .content{
   padding-top: 3rem;
   color: $color_mid-gray;
+  @media all and (max-width: 767px){
+    flex-basis: 100%;
+    max-width: 100%;
+    padding-top: 1rem;
+  }
   h2,h3{
     font-weight: 700;
     margin: 0 0 1rem 0;

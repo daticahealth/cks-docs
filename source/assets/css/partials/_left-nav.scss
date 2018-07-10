@@ -2,6 +2,9 @@
   padding: 3rem 1rem 1rem 0;
   border-right: 1px solid $color_light-gray;
   height: 100%;
+  @media all and (max-width: 767px){
+    display: none;
+  }
   h1{
     font-weight: 500;
     font-size: 1.125rem;
@@ -27,6 +30,26 @@
   .tocify-focus{
     a{
       color: $color_blue;
+    }
+  }
+  #toc{
+    ul{
+      li{
+        &:first-of-type{
+          margin-top: 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: block;
+        }
+      }
+      ul{
+        li{
+          &:first-of-type{
+            overflow: visible;
+          }
+        }
+      }
     }
   }
   ul{
