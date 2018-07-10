@@ -1,0 +1,54 @@
+.main-nav{
+  height: 5.5rem;
+  background: $color_dark;
+  background-image: linear-gradient(-269deg, #02BBD1 0%, #0A8DFF 49%, #6950FF 100%);
+  .logo{
+    position: absolute;
+    top: 1.5rem;
+    left: 0;
+  }
+  .tagline{
+    display: inline-block;
+    color: $color_white;
+    margin: 2.3rem 0 0 2rem;
+    font-weight: 200;
+  }
+  nav{
+    margin: 2.3rem 0 0 0;
+    a{
+      display: inline-block;
+      opacity: 0.65;
+      color: $color_white;
+      margin: 0 1rem 0 0;
+      font-weight: 200;
+      &:hover{
+        opacity: 1;
+      }
+      &:last-of-type{
+        margin: 0 0 0 0;
+      }
+    }
+  }
+  .main-button{
+    margin: 1.4375rem 0 0 0;
+    padding: 0.875rem 1.2rem 0.875rem 2.875rem;
+    font-size: 0.875rem;
+    border-radius: 40px;
+    background-color: $color_white;
+    color: $color_blue;
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    box-shadow: 0px 2px 3px rgba(46, 40, 119, 0.3);
+    &:hover{
+      background-color: lighten($color_light-gray, 4%);
+    }
+    .icon{
+      position: absolute;
+      height: 35px;
+      max-width: 100%;
+      top: 3px;
+      left: 13px;
+    }
+  }
+}

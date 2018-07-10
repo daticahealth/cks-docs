@@ -1,0 +1,55 @@
+.left-nav{
+  padding: 3rem 1rem 1rem 0;
+  border-right: 1px solid $color_light-gray;
+  height: 100%;
+  h1{
+    font-weight: 500;
+    font-size: 1.125rem;
+    opacity: 0.6;
+  }
+  .tocify-item{
+    font-weight: 500;
+    margin: 1.5rem 0 1rem 0;
+  }
+  .tocify-subheader{
+    .tocify-item{
+      font-weight: 400;
+      color: $color_mid-gray;
+      margin: 0 0 0.875rem 0;
+    }
+  }
+  .active{
+    color: $color_blue;
+    a{
+      color: $color_blue;
+    }
+  }
+  .tocify-focus{
+    a{
+      color: $color_blue;
+    }
+  }
+  ul{
+    ul{
+      ul{
+        margin-left: 0.875rem;
+        padding-left: 0.875rem;
+        border-left: 1px solid $color_light-gray;
+        li{
+          a{
+            color: lighten($color_mid-gray, 20%);
+          }
+        }
+      }
+    }
+  }
+  a{
+    &:hover{
+      color: $color_blue;
+    }
+  }
+}
+.fixIt{
+  position: fixed;
+  top: 2.375rem;
+}

@@ -1,0 +1,18 @@
+// Partials
+@import "partials/base";
+
+// Colors
+@import "partials/colors";
+
+// Main Styles
+@import "partials/main-nav";
+@import "partials/left-nav";
+@import "partials/content";
+body{
+  font-family: $sans;
+  font-size: 1rem;
+  color: $color_dark-gray;
+  a{
+    text-decoration: none;
+  }
+}

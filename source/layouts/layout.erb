@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <meta name=viewport content="width=device-width,initial-scale=1.0">
+    <title>CKS Documentation | Datica</title>
+    <meta name=description content="Datica bridges security and compliance with Kubernetes to offer a complete, enterprise cloud native solution for regulated industries.">
+    <meta name=topic content="CKS Documentation | Datica">
+    <meta name=classification content=website>
+    <meta name=url content="https://cks-docs.datica.com">
+    <meta name=keywords content="Kubernetes, cloud native, compliance, security, regulations, HIPAA, HITRUST, AWS, Azure">
+    <meta name=coverage content=Worldwide>
+    <meta name=distribution content=Global>
+    <meta name=author content="Datica">
+    <meta property="og:description" content="Datica bridges security and compliance with Kubernetes to offer a complete, enterprise cloud native solution for regulated industries.">
+    <meta property="og:title" content="CKS Documentation | Datica">
+    <meta itemprop="og:headline" content="CKS Documentation | Datica"/>
+    <meta property="og:type" content=website>
+    <meta property="og:url" content="https://cks-docs.datica.com">
+    <meta property="og:locale" content=en_US>
+    <meta property="twitter:site" content="@daticahealth">
+    <meta property="twitter:creator" content="@daticahealth">
+    <meta property="twitter:title" content="CKS Documentation | Datica">
+    <meta property="twitter:description" content="Datica bridges security and compliance with Kubernetes to offer a complete, enterprise cloud native solution for regulated industries.">
+    <link rel=canonical href="https://cks-docs.datica.com">
+    <meta property="og:image" content="<TODO>">
+    <meta property="twitter:card" content="<TODO>">
+    <meta property="twitter:image" content="<TODO>">
+    <!-- Icons -->
+    <link rel=apple-touch-icon sizes=180x180 href="<TODO>">
+    <link rel=icon type="image/png" sizes=32x32 href="<TODO>">
+    <link rel=icon type="image/png" sizes=16x16 href="<TODO>">
+    <link rel="shortcut icon" href="<TODO>">
+    <link href="/assets/img/favicon.ico" rel="icon" type="image/png" />
+    <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+    <%= stylesheet_link_tag "//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css", "styles", "syntax" %>
+    <!-- Scripts -->
+    <script src="/assets/js/jquery.js"></script>
+    <script src="/assets/js/jquery-ui.js"></script>
+    <script src="/assets/js/tocify.min.js"></script>
+    <script src="/assets/js/all.js"></script>
+  </head>
+  <body class="<%= page_classes %>">
+    <%= partial "partials/header" %>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-3">
+          <%= partial "partials/menu" %>
+        </div>
+        <div class="col-xs-9 content" id="content">
+          <% current_page.data.sections && current_page.data.sections.each do |include| %>
+            <%= partial "sections/#{include}" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <%= yield %>
+  </body>
+</html>
