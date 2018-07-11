@@ -1,4 +1,4 @@
-### Basic Prerequisites
+### Basic prerequisites
 
 Once you've [established contact](https://datica.com/contact) with Datica, the first step is to work with our sales department on understanding your organization's needs as they pertain to compliance and security in the cloud. This will likely require a few in depth discussions as well as a technical overview of CKS.
 

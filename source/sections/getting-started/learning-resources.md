@@ -18,7 +18,7 @@ White-paper: [Principles of Container-based Application Design](https://www.redh
 
 Article: [Developing on Kubernetes](https://kubernetes.io/blog/2018/05/01/developing-on-kubernetes/) - in this article, Michael Hausenblas and Ilya Dmitrichenko discuss approaching Kubernetes development as a software developer. The authors walk you through various CI/CD tools and approaches, with several hands on examples that you can try. This is a great article for those looking for a better understanding of how cloud native applications are deployed and kept up to date.
 
-#### Working With Kubernetes
+#### Working with Kubernetes
 
 Once you've containerized your application and or made the necessary architectural changes, the next step is to start working with Kubernetes directly. The very first step in that process is getting a cluster stood up:
 
