@@ -6,7 +6,7 @@ end
 
 desc "Run the middleman server"
 task :run do
-  system("middleman server -p 2113")
+  system("bundle exec middleman server -p 2113")
 end
 
 desc "Watch and compress Sass"
