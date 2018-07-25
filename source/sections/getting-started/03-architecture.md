@@ -1,4 +1,5 @@
 ### CKS architecture
+
 <a href="/assets/img/CKS_Architecture_V2.png" target="_blank">![CKS Architecture Overview](/assets/img/CKS_Architecture_V2.png)</a>
 
 In this section we'll review the CKS architecture and the various components outside of a user's cluster that help Datica maintain compliance and security. Below we cover each component from the diagram above.
@@ -28,7 +29,13 @@ In between the two clusters is a box representing the secure TLS connection betw
 
 #### Inside a CKS Cluster
 
-...
+![CKS_Architecture_CKS](/assets/img/CKS_Architecture_CKS.png)
+
+A standard CKS cluster is comprised of three controllers and three workers. Datica configures the cluster for high availability to avoid a single point of failure. The compliance deployments — logging, monitoring, intrusion detection, networking, and vulnerability scanning, consuming roughly 8GB of memory on a single worker. However, these pods are ephemeral. As a result, Kubernetes will spin them up and down on whichever worker is available.
+
+Customers will have roughly 40GB of additional memory to allocate to their workloads. Of course, a CKS cluster can handle almost an unlimited number of workers.
+
+#### More information
 
 Below is a brief slide deck on CKS. These slides go over why we built a Kubernetes offering and the support and services associated with this new product. In addition, they give an overview of the Datica managed deployments and the shared responsibility model (what you do vs. what we do). This slide deck is not intended to replace the rest of the getting started guide, rather to reinforce the concepts we'll discuss later on.
 
@@ -36,7 +43,7 @@ If you have questions while viewing the slides please read on throughout the res
 
 <iframe src="//www.slideshare.net/slideshow/embed_code/key/AM4hBy1SalVT5X" allowfullscreen></iframe>
 
-To better understand CKS, it will help to briefly review Datica's Legacy Platform product. In the world of cloud computing there are a number of different paths that lead to running and managing workloads. Whether you're building a complex data processing application that performs sentiment analysis, or you're a startup with a basic monolithic application that helps doctor offices schedule better — you will at some point make a decision around how you're going to manage these pieces of software (and likely several times over throughout the course of their lifecycles).
+To better understand CKS, it will help to briefly review Datica's Legacy Platform product. In the world of cloud computing there are a number of different paths that lead to running and managing workloads. Whether you're building a complex data processing application that performs sentiment analysis, or you're a startup with a basic monolithic application that helps doctor offices schedule better — you will at some point make a decision around how you're going to manage these pieces of software (and likely several times over throughout the course of their life cycles).
 
 The path of least resistance to the cloud has traditionally involved utilizing a Platform as a Service (PaaS). A PaaS allows users to focus on application development, rather than the repetitive, lower-level tasks of managing workloads on a server. [We've written extensively about PaaS offerings](https://datica.com/blog/kubernetes-vs-paas/) and encourage users to read through these articles.
 
