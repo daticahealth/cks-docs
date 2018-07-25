@@ -1,12 +1,13 @@
 ### CKS architecture
-
-![CKS Architecture Overview](/assets/img/CKS_Architecture_V1.png)
+<a href="/assets/img/CKS_Architecture_V2.png" target="_blank">![CKS Architecture Overview](/assets/img/CKS_Architecture_V2.png)</a>
 
 In this section we'll review the CKS architecture and the various components outside of a user's cluster that help Datica maintain compliance and security. Below we cover each component from the diagram above.
 
 #### Cloud accounts
 
-The two largest boxes in the diagram include both _Datica's Cloud Account_ and _Customer's Cloud Account_ labels. These correspond to each parties existing cloud account and are intended to represent separate entities (Datica space and customer space).
+![CKS_Architecture_Accounts](/assets/img/CKS_Architecture_Accounts.png)
+
+The two largest boxes in the diagram include both _Datica's Cloud Account_ and _Customer's Cloud Account_ labels. These correspond to each parties existing cloud account and are intended to represent separate entities (Datica and a third party).
 
 #### clusters
 
@@ -17,7 +18,17 @@ The Lighthouse Cluster is a centrally managed CKS cluster that provides Datica w
 - **Core API:** Datica's authentication system that manages organizations, users, groups and ACLs;
 - **Syndication:** The command center for managing all CKS clusters including making software updates and receiving compliance state information;
 - **Vault:** Datica's public key infrastructure responsible for managing encryption across all CKS clusters;
-- **Compliance engine:** Responsible for serving the Cloud Compliance Management System, including continuous compliance checks against running state;
+- **Compliance engine:** Responsible for serving the Cloud Compliance Management System, including continuous compliance checks against the cluster's running state;
+
+#### Secure connection
+
+![CKS_Architecture_Connection](/assets/img/CKS_Architecture_Connection.png)
+
+In between the two clusters is a box representing the secure TLS connection between the Lighthouse and every customer cluster managed by Datica. This connection is required to receive real-time compliance information from each CKS cluster. The Lighthouse processes this information and feeds that back into our compliance model to determine if a customer's cluster is compliant or not.
+
+#### Inside a CKS Cluster
+
+...
 
 Below is a brief slide deck on CKS. These slides go over why we built a Kubernetes offering and the support and services associated with this new product. In addition, they give an overview of the Datica managed deployments and the shared responsibility model (what you do vs. what we do). This slide deck is not intended to replace the rest of the getting started guide, rather to reinforce the concepts we'll discuss later on.
 
