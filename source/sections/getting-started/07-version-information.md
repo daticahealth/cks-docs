@@ -6,8 +6,8 @@ Datica addresses vulnerabilities and security issues as they become publicly ava
 - Falco: 0.10.0
 - Prometheus: 2.2.0
 - Elasticsearch: 6.1.2
-- FluentD:
-- Kibana:
+- FluentD: 1.0.2
+- Kibana: 6.1.2
 - ClamAV: 0.99.4
 - CRI-O: 1.9.7
 - Flannel: 0.10.0
