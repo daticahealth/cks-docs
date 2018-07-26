@@ -31,7 +31,7 @@ In between the two clusters is a box representing the secure TLS connection betw
 
 ![CKS_Architecture_CKS](/assets/img/CKS_Architecture_CKS.png)
 
-A standard CKS cluster is comprised of three controllers and three workers. Datica configures the cluster for high availability to avoid a single point of failure. The compliance deployments — logging, monitoring, intrusion detection, networking, and vulnerability scanning, consuming roughly 8GB of memory on a single worker. However, these pods are ephemeral. As a result, Kubernetes will spin them up and down on whichever worker is available.
+A standard CKS cluster is comprised of three controllers and three workers. Datica configures the cluster for high availability to avoid a single point of failure. The compliance deployments — logging, monitoring, intrusion detection, networking, and vulnerability scanning, consuming roughly 8GB of memory on a single worker. However, some of these pods only need to live on a single worker.
 
 Customers will have roughly 40GB of additional memory to allocate to their workloads. Of course, a CKS cluster can handle almost an unlimited number of workers.
 
@@ -62,7 +62,7 @@ In our list of goals, we've achieved the following so far:
 
 **Functionality:** CKS functions just as any other Kubernetes cluster. 95% of what Datica adds in terms of compliance and security happens behind the scenes.
 
-**Architecture:** We've architected CKS to have no vendor lock-in. It currently works on AWS and we'll soon be working on porting CKS to Azure. We expect to have both Azure and Google Cloud Platform availability in early 2019.
+**Architecture:** We've architected CKS to avoid vendor lock-in. We currently work with AWS and we look forward to supporting other cloud service providers in the future.
 
 **HITRUST:** We've mapped HITRUST controls to Kubernetes functionality and configuration while providing additional tooling for logging, monitoring, intrusion detection, vulnerability scanning and more as Datica managed deployments.
 

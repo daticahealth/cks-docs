@@ -4,7 +4,7 @@
   <p>Already familiar with Kubernetes? Feel free to skip this section and jump right to <a href="#basic-prerequisites">Basic Prerequisites</a></p>
 </div>
 
-Preparing for Kubernetes can seem daunting on the surface. [Luckily Datica takes care of the hard parts for you](Luckily Datica takes care of the hard parts for you). The biggest effort to end users is figuring out what their deployments look like on Kubernetes. Tactically what that means is you'll need to figure out logical groupings of containers, services, and other components of your application.
+Preparing for Kubernetes can seem daunting on the surface. [Luckily Datica takes care of the hard parts for you](//datica.com/platform). The biggest effort to end users is figuring out what their deployments look like on Kubernetes. Tactically what that means is you'll need to figure out logical groupings of containers, services, and other components of your application.
 
 While Kubernetes can essentially work however you'd like, and since you can containerize pretty much anything, the lift from a non-Kubernetes deployment model to a Kubernetes-ready deployment model can be fairly light. However, if you're re-architecting, and moving toward a cloud native model — containerized workloads with micro-services automatically orchestrated by Kubernetes, it can be somewhat involved.
 
@@ -22,8 +22,8 @@ Article: [Developing on Kubernetes](https://kubernetes.io/blog/2018/05/01/devel
 
 Once you've containerized your application and or made the necessary architectural changes, the next step is to start working with Kubernetes directly. The very first step in that process is getting a cluster stood up:
 
-- **The simple way:** By far the easiest way to get a working cluster up is by install minikube locally on your machine. Minikube is a single-node Kubernetes cluster that requires almost no configuration and is the path of least resistance to start using Kubernetes.
-- **The hard way:** If you're looking to really learn how Kubernetes works, this guide is one of the best resources available. It goes into intricate detail on getting a cluster stood up and configured.
+- **The simple way:** By far the easiest way to get a working cluster up is by install [minikube](https://kubernetes.io/docs/tutorials/stateless-application/hello-minikube/) locally on your machine. Minikube is a single-node Kubernetes cluster that requires almost no configuration and is the path of least resistance to start using Kubernetes.
+- **The hard way:** If you're looking to really learn how Kubernetes works, [this guide is one of the best](https://github.com/kelseyhightower/kubernetes-the-hard-way) resources available. It goes into intricate detail on getting a cluster stood up and configured.
 
 **Note: Both options above are for getting a handle on Kubernetes, not getting a compliant Kubernetes cluster up and running. Once you're ready for production, you will work with Datica to get a compliant cluster stood up. The above recommendations are for local testing purposes only.**
 
