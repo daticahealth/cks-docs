@@ -1,0 +1,5 @@
+### CKS vs. others
+
+As you explore the CKS product, you may be wondering how it is differentiated from other Kubernetes managed services like [Amazon Elastic Container Service for Kubernetes (EKS)](https://aws.amazon.com/eks/) or [Google's Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine/). One of the common points of confusion we see when talking to users is compliance eligibility vs. compliance provability. Eligibility simply means that the underlying CSP will sign a BAA — a document outlining how PHI will be stored, transmitted and accessed. The end user is still responsible for _making_ the service compliant through proper logging, monitoring, configuration and more.
+
+CKS on the other hand comes pre-configured with logging, monitoring, intrusion detection, volume backups, network encryption and a managed OS, among other things. With CKS, users no longer have to configure or manage their cluster for compliance.
