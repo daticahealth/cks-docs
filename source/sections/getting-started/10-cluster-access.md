@@ -34,10 +34,10 @@ Kubernetes ACLs can be constructed using the following sections, separated by:
 * cluster - The second part of the ACL string should always be the exact string "cluster".
 * cluster name - The name of the cluster you want the ACL to apply to.
 * action - This part of the ACL string should always be the exact string "action" OR "*".
-* group - A group is a kubernetes-specific concept that overlaps with Datica's groups. In almost all cases, you can use `*` here.
-* namespace - A namespace is a kubernetes-specific concept. You can learn more about namespaces here.
-* resource - A resource is a Kubernetes-specific concept and is essentially any object that is set up on Kubernetes. You can see the full list of Kubernetes resource types here.
-verb - The last part of the ACL string is the HTTP verb. The list of possible verbs can be viewed here.
+* group - A group is a kubernetes-specific concept that overlaps with Datica's groups. With Datica CKS, this should always be `*`.
+* namespace - A namespace is a kubernetes-specific concept. You can learn more about namespaces [here](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/).
+* resource - A resource is a Kubernetes-specific concept and is essentially any object that is set up on Kubernetes. You can see the full list of Kubernetes resource types [here](https://kubernetes.io/docs/reference/kubectl/overview/#resource-types).
+verb - The last part of the ACL string is the HTTP verb. The list of possible verbs can be viewed [here](https://kubernetes.io/docs/reference/access-authn-authz/authorization/#determine-the-request-verb).
 When completely assembled, the string should look something like product:cluster:[cluster-name]:action:*:[namespace]:[resource]:[verb]
 
 ACL String Examples:
