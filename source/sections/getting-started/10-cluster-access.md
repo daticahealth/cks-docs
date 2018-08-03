@@ -26,6 +26,8 @@ Before deploying your workloads onto your new Kubernetes cluster. You'll want to
 * Logging access: kubectl port-forward -n logging service/kibana 8001:5601 - In your browser, the kibana dashboard can be accessed at the following url: http://localhost:8001
 * Monitoring access: kubectl port-forward -n monitoring service/grafana 8002:3000 - In your browser, the grafana dashboard can be accessed at the following url: http://localhost:8002
 
+*IMPORTANT* You should always make an effort to use kubectl authenticated with your Datica account credentials. However, sometimes you may want or need to use tools that require system roles. These types of tools cannot make use of Datica's webhook authentication/authorization. You must make use of Kubernetes RBAC functionality. Since this is in your application space, you will be responsible for proving and ensuring the security and compliance of the roles you set up in accordance with your own company policies.
+
 ### Groups and ACLs
 
 Kubernetes ACLs can be constructed using the following sections, separated by:
