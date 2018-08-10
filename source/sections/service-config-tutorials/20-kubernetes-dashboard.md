@@ -24,7 +24,7 @@ $ kubectl config view -o jsonpath='{.users[?(@.name == "datica")].user.token}'
 Next we're going to get the running pod name for the dashboard by running:
 
 ```
-$ kubectl -n kube-system get pods | grep kubernetes-dashboard`
+$ kubectl -n kube-system get pods | grep kubernetes-dashboard
 ```
 
 This will output something similar to the following line:
@@ -41,7 +41,7 @@ The first part is the pod name that is needed for the next step.
 In this step we're going to set up port-forward to the dashboard using the kubernetes-dashboard pod name. This allows you to securely access the dashboard through https://localhost:8001/. Run:
 
 ```
-$ kubectl -n kube-system port-forward <pod-name> 8001:8443`
+$ kubectl -n kube-system port-forward <pod-name> 8001:8443
 ```
 
 (replace <pod-name> with the name of the pod running your dashboard (e.g. `kubernetes-dashboard-5bd6f767c7-44446`)
