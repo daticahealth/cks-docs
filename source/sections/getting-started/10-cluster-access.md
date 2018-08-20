@@ -39,7 +39,7 @@ Kubernetes ACLs can be constructed using the following sections, separated by:
 * group - A group is a kubernetes-specific concept that overlaps with Datica's groups. With Datica CKS, this should always be `*`.
 * namespace - A namespace is a kubernetes-specific concept. You can learn more about namespaces [here](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/).
 * resource - A resource is a Kubernetes-specific concept and is essentially any object that is set up on Kubernetes. You can see the full list of Kubernetes resource types [here](https://kubernetes.io/docs/reference/kubectl/overview/#resource-types).
-verb - The last part of the ACL string is the HTTP verb. The list of possible verbs can be viewed [here](https://kubernetes.io/docs/reference/access-authn-authz/authorization/#determine-the-request-verb). Make sure to use the request verbs, not the HTTP verbs. Case matters, so `get` will work as a verb, but `GET` will not.
+* verb - The last part of the ACL string is the HTTP verb. The list of possible verbs can be viewed [here](https://kubernetes.io/docs/reference/access-authn-authz/authorization/#determine-the-request-verb). Make sure to use the request verbs, not the HTTP verbs. Case matters, so `get` will work as a verb, but `GET` will not. A final note on verbs: the kubectl `port-forward` command requires the ability to create pods.
 When completely assembled, the string should look something like product:cluster:[cluster-name]:action:*:[namespace]:[resource]:[verb]
 
 ACL String Examples:
