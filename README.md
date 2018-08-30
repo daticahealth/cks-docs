@@ -18,5 +18,5 @@ If you'd like to view the docs locally, run the following commands:
 
 - `$ cd cks-docs`
 - `$ bundle install`
-- `$ rake run` (yes, I am actually using Rake for this project)
+- `$ rake run`
 - The site should be running at http://localhost:2113/
