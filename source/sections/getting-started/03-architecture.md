@@ -56,7 +56,9 @@ Our goals for CKS were straight forward:
 - Map Kubernetes controls to HITRUST and fill in the gaps with managed deployments.
 - Ensure all CKS clusters are continuously compliant through real-time configuration monitoring.
 
-From December 2017 to May 2018 this is what we focused on building. CKS officially went generally available on June 1. Since then we've been accepting new customers as well as helping current Legacy PaaS customers migrate. If you are currently a Datica customer on our Legacy PaaS product and would like to learn more about migration, [please see this section of the docs](TODO).
+From December 2017 to May 2018 this is what we focused on building. CKS officially went generally available on June 1. Since then we've been accepting new customers as well as helping current Legacy PaaS customers migrate.
+
+<!-- If you are currently a Datica customer on our Legacy PaaS product and would like to learn more about migration, [please see this section of the docs](TODO). -->
 
 In our list of goals, we've achieved the following so far:
 
