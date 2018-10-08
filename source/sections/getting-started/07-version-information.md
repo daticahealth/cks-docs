@@ -3,6 +3,7 @@ Datica addresses vulnerabilities and security issues as they become publicly ava
 
 - CoreOS: 1688.5.3
 - Kubernetes: 1.11.3
+- etcd: 3.2.18
 - Prometheus: 2.2.0
 - Elasticsearch: 6.1.2
 - FluentD: 1.0.2
