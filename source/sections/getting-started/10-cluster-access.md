@@ -51,6 +51,7 @@ To give a group access to view logging, use the following ACL string: `product:c
 
 To give a group full access to a specific namespace, use an ACL string like this: `product:cluster:mycluster:action:*:examplenamespace:*:*`. This ACL string will provide users in the group complete access to the "examplenamespace" namespace.
 
-### Accessing the API server
+### Limiting Application Access
 
-You may have a use case in which one of your applications needs to talk directly to the API server. For example, you may have a CI/CD pipeline that deploys directly to your cluster. In this case, you should [create a dedicated serviceaccount](https://itnext.io/the-abc-of-kubernetes-access-control-e7d280af5c88).
+You may have a use case in which one of your applications needs to talk to another component inside the cluster. For example, you may have a CI/CD pipeline that deploys directly to your cluster and needs to interact with the API server. In this case, you should [create a dedicated serviceaccount](https://itnext.io/the-abc-of-kubernetes-access-control-e7d280af5c88) with permissions limited to only what your application needs.
+ 
