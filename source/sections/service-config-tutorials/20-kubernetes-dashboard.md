@@ -16,7 +16,7 @@ To help ensure that all access to the Dashboard and resources running on Kuberne
 Make sure you have an up-to-date Datica session token for use later on — then run `$ datikube refresh` and enter your account credentials when prompted. Next you can retrieve your updated token by running (save this token for use in step 4):
 
 ```
-$ kubectl config view -o jsonpath='{.users[?(@.name == "datica")].user.token}'
+$ echo `kubectl config view -o jsonpath='{.users[?(@.name == "datica")].user.token}'`
 ```
 
 **Step 2**
