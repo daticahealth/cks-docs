@@ -58,7 +58,8 @@ You may have a use case in which one of your applications needs to talk to anoth
 * Note: The Jenkins tutorial linked above makes use of minikube, so some commands will be different when using CKS.
 
 The general steps (taken from the article linked above) for using a serviceaccount to provide limited permissions to an application are as follows:
-1. Create namespace - kubectl create ns myapp
-1. Create a serviceaccount - kubectl -n myapp create sa thesa
-1. Create a rolebinding - kubectl -n myapp create rolebinding samplerolebinding --clusterrole=edit --serviceaccount=myapp:thesa
-1. Deploy the application - kubectl -n myapp run theapp --image=quay.io/whatever/theapp:0.42 --serviceaccount=thesa
+
+1. Create namespace: `kubectl create ns myapp`
+1. Create a serviceaccount: `kubectl -n myapp create sa thesa`
+1. Create a rolebinding: `kubectl -n myapp create rolebinding samplerolebinding --clusterrole=edit --serviceaccount=myapp:thesa`
+1. Deploy the application: `kubectl -n myapp run theapp --image=quay.io/whatever/theapp:0.42 --serviceaccount=thesa`
