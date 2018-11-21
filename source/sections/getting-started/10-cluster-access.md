@@ -53,5 +53,6 @@ To give a group full access to a specific namespace, use an ACL string like this
 
 ### Limiting Application Access
 
-You may have a use case in which one of your applications needs to talk to another component inside the cluster. For example, you may have a CI/CD pipeline that deploys directly to your cluster and needs to interact with the API server. In this case, you should [create a dedicated serviceaccount](https://itnext.io/the-abc-of-kubernetes-access-control-e7d280af5c88) with permissions limited to only what your application needs.
- 
+You may have a use case in which one of your applications needs to talk to another component inside the cluster. For example, you may have a CI/CD pipeline using tools like [Jenkins](https://www.linux.com/blog/learn/chapter/Intro-to-Kubernetes/2017/6/set-cicd-pipeline-jenkins-pod-kubernetes-part-2)  or [Gitlab](https://about.gitlab.com/2017/09/21/how-to-create-ci-cd-pipeline-with-autodeploy-to-kubernetes-using-gitlab-and-helm/) that deploys directly to your cluster and needs to interact with the API server. In this case, you should [create a dedicated serviceaccount](https://itnext.io/the-abc-of-kubernetes-access-control-e7d280af5c88) with permissions limited to only what your application needs.
+
+* Note: The Jenkins tutorial linked above makes use of minikube, so some commands will be different when using CKS.
