@@ -50,3 +50,18 @@ To give a group access to view monitoring, use the following ACL string: `produc
 To give a group access to view logging, use the following ACL string: `product:cluster:mycluster:action:*:logging:*`. This ACL string will provide users in this group access to retrieve all resources that are in the "logging" namespace.
 
 To give a group full access to a specific namespace, use an ACL string like this: `product:cluster:mycluster:action:*:examplenamespace:*:*`. This ACL string will provide users in the group complete access to the "examplenamespace" namespace.
+
+### Limiting Application Access
+
+Developers may come across use cases in which an application will require talking to another component within CKS. For example, a CI/CD pipeline using [Jenkins](https://www.linux.com/blog/learn/chapter/Intro-to-Kubernetes/2017/6/set-cicd-pipeline-jenkins-pod-kubernetes-part-2)  or [Gitlab](https://about.gitlab.com/2017/09/21/how-to-create-ci-cd-pipeline-with-autodeploy-to-kubernetes-using-gitlab-and-helm/) that deploys directly into a cluster will require interacting with the API server. In these cases, you should [create a dedicated serviceaccount](https://itnext.io/the-abc-of-kubernetes-access-control-e7d280af5c88) with permissions limited to only what your application requires.
+
+**Note:** The Jenkins tutorial linked above makes use of minikube. Be aware that some commands will differ from CKS.
+
+The general steps (taken from the article linked above) for using a serviceaccount to provide limited permissions to an application are as follows:
+
+1. Create namespace: `kubectl create ns myapp`
+1. Create a serviceaccount: `kubectl -n myapp create sa thesa`
+1. Create a rolebinding: `kubectl -n myapp create rolebinding samplerolebinding --clusterrole=edit --serviceaccount=myapp:thesa`
+1. Deploy the application: `kubectl -n myapp run theapp --image=quay.io/whatever/theapp:0.42 --serviceaccount=thesa`
+
+For more information about default and user-facing roles available for use with RBAC, see the [Kubernetes documentation](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#default-roles-and-role-bindings).
