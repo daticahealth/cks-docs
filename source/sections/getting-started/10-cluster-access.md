@@ -62,3 +62,5 @@ The general steps (taken from the article linked above) for using a serviceaccou
 1. Create a serviceaccount - kubectl -n myapp create sa thesa
 1. Create a rolebinding - kubectl -n myapp create rolebinding samplerolebinding --clusterrole=edit --serviceaccount=myapp:thesa
 1. Deploy the application - kubectl -n myapp run theapp --image=quay.io/whatever/theapp:0.42 --serviceaccount=thesa
+
+For more information about default and user-facing roles available for use with RBAC, see the [Kubernetes documentation](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#default-roles-and-role-bindings).
