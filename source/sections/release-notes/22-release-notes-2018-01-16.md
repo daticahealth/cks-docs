@@ -1,6 +1,6 @@
 ## Release Notes
 
-### January 16, 2018 Release Notes
+### January 16, 2018
 
 The latest CKS release will be hitting staging clusters January 16 starting at 9am CST. In this release, we’ve made significant improvements to our vulnerability management tooling as well as core Kubernetes components. See the full release notes below:
 
