@@ -14,3 +14,4 @@ Datica addresses vulnerabilities and security issues as they become publicly ava
 - Flannel: 0.10.0
 - Nginx Ingress Controller: 0.14.0
 - CoreDNS: 1.0.6
+- Wazuh: 3.6.1
