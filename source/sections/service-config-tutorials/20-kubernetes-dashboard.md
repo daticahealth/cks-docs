@@ -5,7 +5,7 @@ _Note_: In order to install an application that requires system roles or service
 To install the Kubernetes Dashboard application in your cluster, execute the following commands (Before beginning this step, set a kubectl context that uses the Admin certificate):
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml
 ```
 
 #### Accessing the Dashboard
