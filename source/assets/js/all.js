@@ -3,14 +3,14 @@ $(window).on("load",function(){
   $("#toc").tocify({
     context : "#content",
     selectors : "h1,h2,h3",
-    hideEffect : "none",
-    showAndHide : false,
-    showAndHideOnScroll : false,
-    highlightOnScroll : true,
-    highlightOffset : 0,
-    theme: "none",
-    extendPage : false,
-    extendPageOffset : 0
+    // hideEffect : "none",
+    // showAndHide : false,
+    // showAndHideOnScroll : true,
+    // highlightOnScroll : true,
+    // highlightOffset : 0,
+    // theme: "none",
+    // extendPage : false,
+    // extendPageOffset : 0
   });
 });
 
