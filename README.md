@@ -1,6 +1,6 @@
 # Datica CKS Documentation
 
-This is the documentation project for Datica's new Compliant Kubernetes Service.
+This is the documentation project for Datica's Compliant Kubernetes Service (CKS).
 
 ### How to use these docs
 
