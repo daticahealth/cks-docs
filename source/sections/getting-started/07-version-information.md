@@ -6,7 +6,7 @@ Datica addresses vulnerabilities and security issues as they become publicly ava
 - etcd: 3.2.18
 - Prometheus: 2.2.0
 - Elasticsearch: 6.1.2
-- FluentD: 1.0.2
+- FluentD: 1.3.3
 - Kibana: 6.1.2
 - Grafana: 5.0.0
 - ClamAV: 0.100.1
