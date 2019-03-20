@@ -1,0 +1,2 @@
+### Image Garbage Collection
+Image garbage collection is handled by the kubelet agent running on each node. The kubelet watches the image filesystem and checks if any of its eviction thresholds have been met. For imageGC, the kubelet is configured to start deleting old images when there is less than 15% of the total storage left or when there are fewer than 15% of the total free inodes on the images volume.
