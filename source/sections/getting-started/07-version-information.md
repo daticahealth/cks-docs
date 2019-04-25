@@ -10,7 +10,7 @@ Datica addresses vulnerabilities and security issues as they become publicly ava
 - FluentD: 1.3.3
 - Kibana: 6.1.2
 - Grafana: 5.0.0
-- ClamAV: 0.100.1
+- ClamAV: 0.100.3
 - Flannel: 0.10.0
 - Nginx Ingress Controller: 0.14.0
 - CoreDNS: 1.0.6
