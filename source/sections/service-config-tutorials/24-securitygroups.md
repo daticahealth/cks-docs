@@ -1,0 +1,4 @@
+### Security Group Rule Changes
+There are certain scenarios where services you deploy require changes to Security Group rules in order to function appropriately. By default, Datica includes a set of Security Groups with an initial set of rules to enable the cluster and resources to function. For managing changes to the overall Security Group rules, we suggest creating a new Security Group with the specific rules you need. Having a separate group will make it easier for you to distinguish between manual changes you have made and the rules that are set up and managed by Datica.
+
+While we suggest creating your own Security Group for managing new rules, if changes to Datica's Security Groups are made, the following situations apply: any rules you add to Datica's Security Groups will persist, but any changes to rules that Datica sets up by default will NOT persist.
