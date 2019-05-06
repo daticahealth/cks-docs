@@ -19,7 +19,7 @@ This project contains a set of templates that demonstrate a simple app deploymen
 **Step 2**
 Pick a host name for your app.
 
-This host name will be a DNS CNAME entry that points to the load balancer for your cluster's ingress-controller. For this example, we will use `example.com`.
+This host name will be a DNS CNAME entry that points to the load balancer for your cluster's ingress-controller. For this example, we will use `cks.example.com`.
 
 To find the load balancer address for the cluster, run the following command:
 
@@ -27,7 +27,9 @@ To find the load balancer address for the cluster, run the following command:
 $ kubectl -n ingress-nginx get svc ingress-nginx -o wide
 ```
 
-Create a CNAME record that points to the `EXTERNAL-IP` listed by the command above.
+Create a CNAME record, with the name you selected, that points to the `EXTERNAL-IP` listed by the command above.
+
+_Note_: If you do not own a domain, and do not wish to set one up at this time, you can use the ingress load balancer address to expose your app. However, since an X509 certificate cannot have a Common Name longer than 64 characters you will not be able to set this address as the CN for your certificate. Instead you would need to generate a certificate that includes the load balancer address as a DNS SAN, which takes a bit more setup to create than what is described here.
 
 **Step 3**
 Generate Kubernetes YAML for the app
@@ -35,21 +37,23 @@ Generate Kubernetes YAML for the app
 Now that we have chosen a host name for the application, we can generate the YAML to describe the deployment, service, and ingress resources. The `template.sh` script in k8s-example will take care of this for us.
 
 ```sh
-$ ./template.sh --deployment example --namespace example --image nginxdemos/hello --port 1234 --hostname example.com
+$ ./template.sh --deployment example --namespace default --image nginxdemos/hello --port 1234 --hostname cks.example.com
 ```
 
-There should now be three files under the `./example` directory, one for each resource.
+There should now be three YAML files under the `example` directory, one for each resource.
 
 **Step 4**
-Create certs
+Create TLS certificate
 
-Next, we will generate a self-signed certificate for serving the application over HTTPS. While this would not be appropriate for a production app, it is sufficient for a test deployment. Any certificate used for serving HTTPS must have either a Common Name (CN) or a Subject Alternative Name (SAN) that matches the host name used to reach it. Note that the CN passed for the subject is set to `example.com`, matching the CNAME record that we just created and the host name that is set on the ingress resource.
+Next, we will generate a self-signed certificate for serving the application over HTTPS. While this would not be appropriate for a production app, it is sufficient for a test deployment. Any certificate used for serving HTTPS must have either a Common Name (CN) or a Subject Alternative Name (SAN) that matches the hostname in the request sent by the client.
+
+Note that the CN passed for the subject in the command below is set to `cks.example.com`, matching the CNAME record that we just created and the host that is set on the ingress resource.
 
 ```sh
-$ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout example-key.pem -out example-cert.pem -subj "/CN=example.com/O=datica-dev"
+$ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout example-key.pem -out example-cert.pem -subj "/CN=cks.example.com/O=datica-dev"
 ```
 
-Once you have generated your certificate, upload the key and cert to your cluster as a TLS Secret to allow the ingress-controller to make use of them for your ingress resource. The secret must be created in the same namespace that your application will be deployed in, which we chose to be `default` above.
+Once you have generated your certificate, upload the key and cert to your cluster as a TLS Secret to allow the ingress-controller to make use of them for your ingress resource. The secret must be created in the same namespace that your application will be deployed in, which will be `default` in this case.
 
 ```sh
 $ kubectl --namespace default create secret tls example-tls --cert=./example-cert.pem --key=./example-key.pem
@@ -58,7 +62,7 @@ $ kubectl --namespace default create secret tls example-tls --cert=./example-cer
 **Step 5**
 Deploy the application
 
-Now that the YAML files and key-cert pair have been created, we are ready to deploy the application.
+Now that the YAML files and TLS Secret have been created, we are ready to deploy the application.
 
 ```sh
 $ kubectl apply -f ./example/deployment.yaml
@@ -81,7 +85,7 @@ I0506 15:40:38.490997       8 controller.go:177] ingress backend successfully re
 **Step 6**
 View the app
 
-If everything is wired up correctly, your application should now be up and running on the given address. For this example, we would go to `https://example.com`.
+If everything is wired up correctly, your application should now be up and running on the given address. For this example, we would go to [https://cks.example.com](https://cks.example.com).
 
 Since the certificate we created is self-signed, any modern browser will tell you that the connection is not secure. If you inspect the details for the HTTPS connection you will see that it is recieving your certificate, but is considered insecure because it is self-signed. This is expected, since there is no way for a browser to check the validity of a self-signed certificate. In production, you should always use a certificate signed by a public CA. At Datica, we use Let's Encrypt in-house for this purpose.
 
@@ -97,12 +101,12 @@ For the ingress resource check closely to make sure there are no typos in the TL
 
 For the certificate, check that it has a CN or SAN that matches the host you are using to reach the app. If it does not, then the ingress-controller will consider it to be an invalid certificate, and will not use it to serve HTTPS. If this is the case, you will see errors in the ingress-controller logs that explain why the cert is not being used:
 
-As an example, if I create a certicate with the CN `example.com`, but configure my ingress to use the NLB address as the host, then the ingress controller will reject the certificate on the grounds that it does not match the route configured for my ingress.
+As an example, if I create a certicate with the CN `cks.example.com`, but configure my ingress to use the NLB address as the host, then the ingress controller will reject the certificate on the grounds that it does not match the route configured for my ingress.
 
 The log would look something like this:
 
 ```sh
-ssl certificate default/example-tls does not contain a Common Name or Subject Alternative Name for host <NLB_Address>. Reason: x509: certificate is valid for example.com, not <NLB_Address>
+ssl certificate default/example-tls does not contain a Common Name or Subject Alternative Name for host <NLB_Address>. Reason: x509: certificate is valid for cks.example.com, not <NLB_Address>
 ```
 
-After updating the ingress resource to use `example.com` for the host (and list of hosts under the TLS config), the ingress-controller will detect a change and reload the configuration for the ingress.
+After updating the ingress resource to use `cks.example.com` for the host (and list of hosts under the TLS config) the ingress-controller will detect that an ingress resource has changed, and reload nginx with the new configuration.
