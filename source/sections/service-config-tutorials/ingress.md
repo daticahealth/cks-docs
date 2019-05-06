@@ -22,11 +22,12 @@ Pick a hostname for your app.
 This hostname will be a DNS CNAME entry that points to the load balancer for your cluster's ingress-controller. For this example, we will use `example.datica-dev.com`.
 
 To find the load balancer address for the cluster, run the following command:
+
 ```sh
 $ kubectl -n ingress-nginx get svc ingress-nginx -o wide
 ```
 
-Then, using the `EXTERNAL-IP` listed in the command above, create a CNAME entry that points to the NLB address.
+Create a CNAME record that points to the `EXTERNAL-IP` listed by the command above.
 
 **Step 3**
 Generate Kubernetes YAML for the app
@@ -49,6 +50,7 @@ $ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout example-key.pem -o
 ```
 
 Once you have generated your certificate, upload the key and cert to your cluster as a TLS Secret to allow the ingress-controller to make use of them for your ingress resource. The secret must be created in the same namespace that your application will be deployed in, which we chose to be `default` above.
+
 ```sh
 kubectl --namespace default create secret tls example-tls --cert=./example-cert.pem --key=./example-key.pem
 ```
@@ -67,6 +69,7 @@ $ kubectl apply -f ./example/ingress.yaml
 If you look at the logs for your cluster's ingress-controller deployment you will see that it finds the new ingress resource as soon as it is created, and reloads nginx with the new configuration.
 
 These logs will look something like this:
+
 ```sh
 $ kubectl -n ingress-nginx logs -l app=ingress-nginx
 
@@ -80,4 +83,4 @@ View the app
 
 If everything is wired up correctly, your application should now be up and running on the given hostname. For this example, we would go to `https://example.datica-dev.com`.
 
-Since the certificate being used for serving HTTPS is self-signed, any modern browser will tell you that the connection is not secure. If you inspect the details for the HTTPS connection you will see that it is recieving your certificate, but is considered insecure because it is self-signed. This is expected, since there is no way for a browser to check the validity of a self-signed certificate. In production, you should always use a certificate signed by a public CA. At Datica, we use Let's Encrypt in-house for this purpose.
+Since the certificate we created is self-signed, any modern browser will tell you that the connection is not secure. If you inspect the details for the HTTPS connection you will see that it is recieving your certificate, but is considered insecure because it is self-signed. This is expected, since there is no way for a browser to check the validity of a self-signed certificate. In production, you should always use a certificate signed by a public CA. At Datica, we use Let's Encrypt in-house for this purpose.
