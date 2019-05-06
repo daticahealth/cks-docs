@@ -17,9 +17,9 @@ $ git clone https://github.com/daticahealth/k8s-example.git
 This project contains a set of templates that demonstrate a simple app deployment, along with a bash script that uses them to generate valid Kubernetes YAML files.
 
 **Step 2**
-Pick a hostname for your app.
+Pick a host name for your app.
 
-This hostname will be a DNS CNAME entry that points to the load balancer for your cluster's ingress-controller. For this example, we will use `example.datica-dev.com`.
+This host name will be a DNS CNAME entry that points to the load balancer for your cluster's ingress-controller. For this example, we will use `example.datica-dev.com`.
 
 To find the load balancer address for the cluster, run the following command:
 
@@ -32,7 +32,7 @@ Create a CNAME record that points to the `EXTERNAL-IP` listed by the command abo
 **Step 3**
 Generate Kubernetes YAML for the app
 
-Now that we have chosen a hostname for the application, we can generate the YAML to describe the deployment, service, and ingress resources. The `template.sh` script in k8s-example will take care of this for us.
+Now that we have chosen a host name for the application, we can generate the YAML to describe the deployment, service, and ingress resources. The `template.sh` script in k8s-example will take care of this for us.
 
 ```sh
 $ ./template.sh --deployment example --namespace example --image nginxdemos/hello --port 1234 --hostname example.datica-dev.com
@@ -43,7 +43,7 @@ There should now be three files under the `./example` directory, one for each re
 **Step 4**
 Create certs
 
-Next, we will generate a self-signed certificate for serving the application over HTTPS. While this would not be appropriate for a production app, it is sufficient for a test deployment. Any certificate used for serving HTTPS must have either a Common Name (CN) or a Subject Alternative Name (SAN) that matches the hostname used to reach it. Note that the CN passed for the subject is set to `example.datica-dev.com`, matching the CNAME record that we just created and the hostname that is set on the ingress resource.
+Next, we will generate a self-signed certificate for serving the application over HTTPS. While this would not be appropriate for a production app, it is sufficient for a test deployment. Any certificate used for serving HTTPS must have either a Common Name (CN) or a Subject Alternative Name (SAN) that matches the host name used to reach it. Note that the CN passed for the subject is set to `example.datica-dev.com`, matching the CNAME record that we just created and the host name that is set on the ingress resource.
 
 ```sh
 $ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout example-key.pem -out example-cert.pem -subj "/CN=example.datica-dev.com/O=datica-dev"
@@ -52,7 +52,7 @@ $ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout example-key.pem -o
 Once you have generated your certificate, upload the key and cert to your cluster as a TLS Secret to allow the ingress-controller to make use of them for your ingress resource. The secret must be created in the same namespace that your application will be deployed in, which we chose to be `default` above.
 
 ```sh
-kubectl --namespace default create secret tls example-tls --cert=./example-cert.pem --key=./example-key.pem
+$ kubectl --namespace default create secret tls example-tls --cert=./example-cert.pem --key=./example-key.pem
 ```
 
 **Step 5**
@@ -81,6 +81,24 @@ I0506 15:40:38.490997       8 controller.go:177] ingress backend successfully re
 **Step 6**
 View the app
 
-If everything is wired up correctly, your application should now be up and running on the given hostname. For this example, we would go to `https://example.datica-dev.com`.
+If everything is wired up correctly, your application should now be up and running on the given address. For this example, we would go to `https://example.datica-dev.com`.
 
 Since the certificate we created is self-signed, any modern browser will tell you that the connection is not secure. If you inspect the details for the HTTPS connection you will see that it is recieving your certificate, but is considered insecure because it is self-signed. This is expected, since there is no way for a browser to check the validity of a self-signed certificate. In production, you should always use a certificate signed by a public CA. At Datica, we use Let's Encrypt in-house for this purpose.
+
+#### Common Problems
+
+**Ingress-controller is serving "Kubernetes Ingress Controller Fake Certificate" instead of the configured certificate**
+The `Kubernetes Ingress Controller Fake Certificate` is a self-signed certificate used in the ingress-controller to serve HTTPS for any routes that do not have a valid TLS configuration. If your ingress has TLS defined but you are still seeing the wrong certificate when visiting the site, then it is likely that there is something misconfigured in your ingress resource, or in your certificate.
+
+For the ingress resource check closely to make sure there are no typos in the TLS config, and that the host name you are using to reach the app is in the list of `hosts`.
+
+For the certificate, check that it has a CN or SAN that matches the host you are using to reach the app. If it does not, then the ingress-controller will consider it to be an invalid certificate, and will not use it to serve HTTPS. If this is the case, you will see errors in the ingress-controller logs that explain why the cert is not being used:
+
+For example, if I create a certicate with the CN `example.datica-dev.com`, but configure my ingress to use the NLB address as the host, then the ingress controller will reject the certificate on the grounds that it does not match the route configured for my ingress.
+
+The log would look something like this:
+```sh
+ssl certificate default/example-tls does not contain a Common Name or Subject Alternative Name for host <NLB_Address>. Reason: x509: certificate is valid for example.datica-dev.com, not <NLB_Address>
+```
+
+After updating the ingress resource to use `example.datica-dev.com` for the host (and list of hosts under the TLS config), the ingress-controller will detect a change and reload the configuration for the ingress.
