@@ -1,9 +1,9 @@
 ### Application Ingress
 
 #### Intro
-Secure ingress is one of most important parts of a compliant cluter. In CKS, we use the ingress-nginx project to provide a single, access logged, point of ingress into the cluster. Using routing rules and TLS definitions configured by ingress resources, multiple applications can be exposed to the public internet over the Network Load Balancer provisioned for your cluster. The ingress-contoller handles determining which ingress best matches the incoming URL, and routes the request to the appropriate service backend. If none of the ingress resources have a match then the request is routed to the default-http-backend, which responds `default backend - 404`.
+Secure ingress is one of most important parts of a compliant cluster. In CKS, we use the ingress-nginx project to provide a single access-logged point of ingress into the cluster network. Using routing rules and TLS definitions configured by ingress resources, multiple applications can be exposed to the public internet over the Network Load Balancer provisioned for your cluster. The ingress-contoller handles determining which ingress best matches the incoming URL, and routes the request to the appropriate service backend. If none of the ingress resources have a match then the request is routed to the default-http-backend, which responds `default backend - 404`.
 
-This tutorial will step through a basic deployment based on the [k8s-example project](https://github.com/daticahealth/k8s-example) to expose an application with TLS on the public internet.
+This tutorial will step through a basic deployment based on the [k8s-example project](https://github.com/daticahealth/k8s-example) to expose an application on the public internet over HTTPS.
 
 #### Example
 
@@ -87,7 +87,7 @@ View the app
 
 If everything is wired up correctly, your application should now be up and running on the given address. For this example, we would go to [https://cks.example.com](https://cks.example.com).
 
-Since the certificate we created is self-signed, any modern browser will tell you that the connection is not secure. If you inspect the details for the HTTPS connection you will see that it is recieving your certificate, but is considered insecure because it is self-signed. This is expected, since there is no way for a browser to check the validity of a self-signed certificate. In production, you should always use a certificate signed by a public CA. At Datica, we use Let's Encrypt in-house for this purpose.
+Since the certificate we created is self-signed, any modern browser will tell you that the connection is not secure. If you inspect the details for the HTTPS connection you will see that it is receiving your certificate, but the connection is considered insecure because the cert is self-signed. This is expected, since there is no way for a browser to check the validity of a self-signed certificate. In production, you should always use a certificate signed by a public CA. At Datica, we use Let's Encrypt in-house for this purpose.
 
 If you have deployed the `nginxdemos/hello` image, it will display a page with some information about the server it is running on. Since the container is running in a kubernetes pod, the `Server Address` and `Server Name` will be the IP and name of the pod, rather than the external IP and name of the load balancer or the host you have configured for ingress. This is because Kubernetes and ingress-nginx abstract networking away from the container. From its point of view, the pod is the host that it lives on.
 
@@ -99,7 +99,7 @@ The `Kubernetes Ingress Controller Fake Certificate` is a self-signed certificat
 
 For the ingress resource check closely to make sure there are no typos in the TLS config, and that the host name you are using to reach the app is in the list of `hosts`.
 
-For the certificate, check that it has a CN or SAN that matches the host you are using to reach the app. If it does not, then the ingress-controller will consider it to be an invalid certificate, and will not use it to serve HTTPS. If this is the case, you will see errors in the ingress-controller logs that explain why the cert is not being used:
+For the certificate, check that it has a CN or SAN that matches the host you are using to reach the app. If it does not, then the ingress-controller will consider it to be an invalid certificate, and will not use it to serve HTTPS. If this is the case, you will see errors in the ingress-controller logs that explain why the cert is not being used.
 
 As an example, if I create a certicate with the CN `cks.example.com`, but configure my ingress to use the NLB address as the host, then the ingress controller will reject the certificate on the grounds that it does not match the route configured for my ingress.
 
