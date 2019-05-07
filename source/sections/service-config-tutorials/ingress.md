@@ -107,9 +107,9 @@ For the ingress resource check closely to make sure there are no typos in the TL
   tls:
   - hosts:
     - cks.example.com
-    secretName: example-tls
+  - secretName: example-tls
 ```
-(correct)
+(incorrect)
 
 vs
 
@@ -117,9 +117,9 @@ vs
   tls:
   - hosts:
     - cks.example.com
-  - secretName: example-tls
+    secretName: example-tls
 ```
-(incorrect)
+(correct)
 
 can cause Kubernetes to accept the YAML as valid, while also causing the ingress-controller to ignore the TLS secret for your list of hosts.
 
