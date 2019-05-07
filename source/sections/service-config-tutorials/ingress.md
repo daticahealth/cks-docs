@@ -14,7 +14,7 @@ Clone the k8s-example project
 $ git clone https://github.com/daticahealth/k8s-example.git
 ```
 
-This project contains a set of templates that demonstrate a simple app deployment, along with a bash script that uses them to generate valid Kubernetes YAML files.
+This project contains a set of templates that demonstrate a simple app deployment, along with a bash script that uses them to generate valid Kubernetes YAML files. The script assumes a Unix-like environment with the command line utility `sed` installed.
 
 **Step 2**
 Pick a host name for your app.
@@ -25,9 +25,12 @@ To find the load balancer address for the cluster, run the following command:
 
 ```sh
 $ kubectl -n ingress-nginx get svc ingress-nginx -o wide
+
+NAME            TYPE           CLUSTER-IP    EXTERNAL-IP        PORT(S)                      AGE     SELECTOR
+ingress-nginx   LoadBalancer   10.32.0.188   <NLB_Address>      80:30236/TCP,443:31494/TCP   18d     app=ingress-nginx
 ```
 
-Create a CNAME record, with the name you selected, that points to the `EXTERNAL-IP` listed by the command above.
+Create a CNAME record, with the name you selected, that points to the `EXTERNAL-IP` address listed by the command above. At Datica, we use AWS Route53 to manage our DNS records, but any DNS provider will work.
 
 _Note_: If you do not own a domain, and do not wish to set one up at this time, you can use the ingress load balancer address to expose your app. However, since an X509 certificate cannot have a Common Name longer than 64 characters you will not be able to set this address as the CN for your certificate. Instead you would need to generate a certificate that includes the load balancer address as a DNS SAN, which takes a bit more setup to create than what is described here.
 
@@ -53,7 +56,7 @@ Note that the CN passed for the subject in the command below is set to `cks.exam
 $ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout example-key.pem -out example-cert.pem -subj "/CN=cks.example.com/O=datica-example"
 ```
 
-Once you have generated your certificate, upload the key and cert to your cluster as a TLS Secret to allow the ingress-controller to make use of them for your ingress resource. The secret must be created in the same namespace that your application will be deployed in, which will be `default` in this case.
+Once you have generated your key and certificate, upload them to your cluster as a TLS Secret to allow the ingress-controller to make use of them for your ingress resource. The secret must be created in the same namespace that your application will be deployed in, `default` in this case.
 
 ```sh
 $ kubectl --namespace default create secret tls example-tls --cert=./example-cert.pem --key=./example-key.pem
@@ -86,7 +89,7 @@ I0507 02:48:24.631578       8 controller.go:177] ingress backend successfully re
 **Step 6**
 View the app
 
-If everything is wired up correctly, your application should now be up and running on the given address. For this example, we would go to [https://cks.example.com](https://cks.example.com).
+If everything is wired up correctly, your application should now be up and running at the CNAME you configured. For this example, we would go to `https://cks.example.com`.
 
 Since the certificate we created is self-signed, any modern browser will tell you that the connection is not secure. If you inspect the details for the HTTPS connection you will see that it is receiving your certificate, but the connection is considered insecure because the cert is self-signed. This is expected, since there is no way for a browser to check the validity of a self-signed certificate. It is safe to proceed, (so long as you trust yourself!). In production, you should always use a certificate signed by a public CA. At Datica, we use Let's Encrypt for this purpose.
 
@@ -132,7 +135,7 @@ After updating the ingress resource to use `cks.example.com` for the host (and l
 
 **Certificate Chaining**
 
-In production, it is common for a certificate to be part of a chain of certificates, each one validating the trust of the one before it until you reach the Root Certificate Authority. In the simplest example, a Root CA would sign an Intermediate CA, which could then be used to sign your leaf certificate(s). This allows the Root CA to remain locked away, while still being able to sign new leaf certificates using the shorter-lived Intermediate CA. It is important that the TLS Secret contains full chain of certificates up to (but not including) the  public trusted root in order for an end-user to verify the chain of trust.
+In production, it is common for a certificate to be part of a cert chain, each one validating the trust of the one before it until you reach the Root Certificate Authority. In the simplest example, a Root CA would sign an Intermediate CA, which could then be used to sign your leaf certificate(s). This allows the Root CA to remain locked away, while still being able to sign new leaf certificates using the shorter-lived Intermediate CA. It is important that the TLS Secret contains full chain of certificates up to (but not including) the  public trusted root in order for an end-user to verify the chain of trust.
 
 A chain of certificates would look like this:
 
