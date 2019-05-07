@@ -1,5 +1,4 @@
-Release Notes
-------
+## Release Notes
 
 ### January 16, 2019
 

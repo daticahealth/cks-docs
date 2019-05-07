@@ -1,4 +1,3 @@
 # Datica CKS Documentation
 
-Getting started
-------
+## Getting started

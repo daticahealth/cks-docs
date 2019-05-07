@@ -1,2 +1,1 @@
-Control Plane Configuration
-------
+## Control Plane Configuration
