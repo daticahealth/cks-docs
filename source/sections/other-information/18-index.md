@@ -1,1 +1,2 @@
-## Other information
+Other information
+------
