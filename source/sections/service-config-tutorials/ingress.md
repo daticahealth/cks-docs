@@ -135,7 +135,7 @@ After updating the ingress resource to use `cks.example.com` for the host (and l
 
 **Certificate Chaining**
 
-In production, it is common for a certificate to be part of a cert chain, each one validating the trust of the one before it until you reach the Root Certificate Authority. In the simplest example, a Root CA would sign an Intermediate CA, which could then be used to sign your leaf certificate(s). This allows the Root CA to remain locked away, while still being able to sign new leaf certificates using the shorter-lived Intermediate CA. It is important that the TLS Secret contains full chain of certificates up to (but not including) the  public trusted root in order for an end-user to verify the chain of trust.
+In production, it is common for a certificate to be part of a cert chain, each one validating the trust of the one before it until you reach the Root Certificate Authority. In the simplest example, a Root CA would sign an Intermediate CA, which could then be used to sign your leaf certificate(s). This allows the Root CA to remain locked away, while still being able to sign new leaf certificates using the shorter-lived Intermediate CA. It is important that the TLS Secret contains the full chain of certificates up to (but not including) the public trusted root in order for an end-user to verify the chain of trust.
 
 A chain of certificates would look like this:
 
