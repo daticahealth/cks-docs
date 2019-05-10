@@ -1,4 +1,4 @@
-$(window).on("load",function(){
+$(function() {
   // Table of contents
   $("#toc").tocify({
     context : "#content",
