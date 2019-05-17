@@ -125,7 +125,7 @@ can cause Kubernetes to accept the YAML as valid, while also causing the ingress
 
 For the certificate, verify the `secretName` specified in the ingress resource matches the name of a valid TLS Secret in the same namespace. Also make sure that it has a CN or SAN that matches the CNAME DNS record you are using for the application. If it does not, then the ingress-controller will consider it to be an invalid certificate, and will not use it to serve HTTPS.
 
-When debugging ingress, it is always useful to check the logs for the ingress-controller deployment. If a TLS secret is being rejected, the ingress-controller will often log information about the problem. As an example, if I create a certicate with the CN `cks.example.com`, but configure my ingress to use the NLB address as the host, then the ingress controller will reject the certificate on the grounds that it does not match the route configured for my ingress:
+When debugging ingress, it is always useful to check the logs for the ingress-controller deployment. If a TLS secret is being rejected, the ingress-controller will often log information about the problem. As an example, if a certicate is created with the CN `cks.example.com`, but the ingress uses the NLB address as the host, then the ingress controller will reject the certificate on the grounds that it does not have a CN or SAN that matches the route configured for the ingress:
 
 ```
 ssl certificate default/example-tls does not contain a Common Name or Subject Alternative Name for host <NLB_Address>. Reason: x509: certificate is valid for cks.example.com, not <NLB_Address>
