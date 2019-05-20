@@ -19,7 +19,7 @@ This project contains a set of templates that demonstrate a simple app deploymen
 **Step 2**
 Pick a host name for your app.
 
-This host name will be a DNS CNAME entry that points to the load balancer for your cluster's ingress-controller. For this example, we will use `cks.example.com`.
+This host name will be a DNS CNAME entry that points to the load balancer for your cluster's ingress-controller. For this example, we will refer to this as `<YOUR_DOMAIN_NAME>`.
 
 To find the load balancer address for the cluster, run the following command:
 
@@ -40,7 +40,7 @@ Generate Kubernetes YAML for the app
 Now that we have chosen a host name for the application, we can generate the YAML to describe the deployment, service, and ingress resources. The `template.sh` script in k8s-example will take care of this for us.
 
 ```sh
-$ ./template.sh --deployment example --namespace default --image nginxdemos/hello --port 1234 --hostname cks.example.com
+$ ./template.sh --deployment example --namespace default --image nginxdemos/hello --port 1234 --hostname <YOUR_DOMAIN_NAME>
 ```
 
 There should now be three YAML files under the `example` directory, one for each resource.
@@ -50,10 +50,10 @@ Create TLS certificate
 
 Next, we will generate a self-signed certificate for serving the application over HTTPS. While this would not be appropriate for a production app, it is sufficient for a test deployment. Any certificate used for serving HTTPS must have either a Common Name (CN) or a Subject Alternative Name (SAN) that matches the hostname in the request sent by the client.
 
-Note that the CN passed for the subject in the command below is set to `cks.example.com`, matching the CNAME record that we just created and the host that is set on the ingress resource.
+Note that the CN passed for the subject in the command below is set to `<YOUR_DOMAIN_NAME>`, matching the CNAME record that we just created and the host that is set on the ingress resource.
 
 ```sh
-$ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout example-key.pem -out example-cert.pem -subj "/CN=cks.example.com/O=datica-example"
+$ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout example-key.pem -out example-cert.pem -subj "/CN=<YOUR_DOMAIN_NAME>/O=datica-example"
 ```
 
 Once you have generated your key and certificate, upload them to your cluster as a TLS Secret to allow the ingress-controller to make use of them for your ingress resource. The secret must be created in the same namespace that your application will be deployed in, `default` in this case.
@@ -89,7 +89,7 @@ I0507 02:48:24.631578       8 controller.go:177] ingress backend successfully re
 **Step 6**
 View the app
 
-If everything is wired up correctly, your application should now be up and running at the CNAME you configured. For this example, we would go to `https://cks.example.com`.
+If everything is wired up correctly, your application should now be up and running at the CNAME you configured. For this example, we would go to `https://<YOUR_DOMAIN_NAME>`.
 
 Since the certificate we created is self-signed, any modern browser will tell you that the connection is not secure. If you inspect the details for the HTTPS connection you will see that it is receiving your certificate, but the connection is considered insecure because the cert is self-signed. This is expected, since there is no way for a browser to check the validity of a self-signed certificate. It is safe to proceed, (so long as you trust yourself!). In production, you should always use a certificate signed by a public CA. At Datica, we use Let's Encrypt for this purpose.
 
@@ -106,7 +106,7 @@ For the ingress resource check closely to make sure there are no typos in the TL
 ```yaml
   tls:
   - hosts:
-    - cks.example.com
+    - <YOUR_DOMAIN_NAME>
   - secretName: example-tls
 ```
 (incorrect)
@@ -116,7 +116,7 @@ vs
 ```yaml
   tls:
   - hosts:
-    - cks.example.com
+    - <YOUR_DOMAIN_NAME>
     secretName: example-tls
 ```
 (correct)
@@ -125,13 +125,13 @@ can cause Kubernetes to accept the YAML as valid, while also causing the ingress
 
 For the certificate, verify the `secretName` specified in the ingress resource matches the name of a valid TLS Secret in the same namespace. Also make sure that it has a CN or SAN that matches the CNAME DNS record you are using for the application. If it does not, then the ingress-controller will consider it to be an invalid certificate, and will not use it to serve HTTPS.
 
-When debugging ingress, it is always useful to check the logs for the ingress-controller deployment. If a TLS secret is being rejected, the ingress-controller will often log information about the problem. As an example, if a certicate is created with the CN `cks.example.com`, but the ingress uses the NLB address as the host, then the ingress controller will reject the certificate on the grounds that it does not have a CN or SAN that matches the route configured for the ingress:
+When debugging ingress, it is always useful to check the logs for the ingress-controller deployment. If a TLS secret is being rejected, the ingress-controller will often log information about the problem. As an example, if a certicate is created with the CN `<YOUR_DOMAIN_NAME>`, but the ingress uses the NLB address as the host, then the ingress controller will reject the certificate on the grounds that it does not have a CN or SAN that matches the route configured for the ingress:
 
 ```
-ssl certificate default/example-tls does not contain a Common Name or Subject Alternative Name for host <NLB_Address>. Reason: x509: certificate is valid for cks.example.com, not <NLB_Address>
+ssl certificate default/example-tls does not contain a Common Name or Subject Alternative Name for host <NLB_Address>. Reason: x509: certificate is valid for <YOUR_DOMAIN_NAME>, not <NLB_Address>
 ```
 
-After updating the ingress resource to use `cks.example.com` for the host (and list of hosts under the TLS config) the ingress-controller will detect that an ingress resource has changed, and reload nginx with the new configuration.
+After updating the ingress resource to use `<YOUR_DOMAIN_NAME>` for the host (and list of hosts under the TLS config) the ingress-controller will detect that an ingress resource has changed, and reload nginx with the new configuration.
 
 **Certificate Chaining**
 
