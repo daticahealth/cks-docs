@@ -26,13 +26,13 @@ To find the load balancer address for the cluster, run the following command:
 ```sh
 $ kubectl -n ingress-nginx get svc ingress-nginx -o wide
 
-NAME            TYPE           CLUSTER-IP    EXTERNAL-IP        PORT(S)                      AGE     SELECTOR
-ingress-nginx   LoadBalancer   10.32.0.188   <NLB_Address>      80:30236/TCP,443:31494/TCP   18d     app=ingress-nginx
+NAME            TYPE           CLUSTER-IP    EXTERNAL-IP                PORT(S)                      AGE     SELECTOR
+ingress-nginx   LoadBalancer   10.32.0.188   <LOAD_BALANCER_Address>    80:30236/TCP,443:31494/TCP   18d     app=ingress-nginx
 ```
 
 Create a CNAME record, with the name you selected, that points to the `EXTERNAL-IP` address listed by the command above. At Datica, we use AWS Route53 to manage our DNS records, but any DNS provider will work.
 
-_Note_: If you do not own a domain, and do not wish to set one up at this time, you can use the ingress load balancer address to expose your app. However, since an X509 certificate cannot have a Common Name longer than 64 characters you will not be able to set this address as the CN for your certificate. Instead you would need to generate a certificate that includes the load balancer address as a DNS SAN, which takes a bit more setup to create than what is described here.
+_Note_: If you do not own a domain, and do not wish to set one up at this time, you can use the ingress load balancer address to expose your app for development.
 
 **Step 3**
 Generate Kubernetes YAML for the app
@@ -50,16 +50,16 @@ Create TLS certificate
 
 Next, we will generate a self-signed certificate for serving the application over HTTPS. While this would not be appropriate for a production app, it is sufficient for a test deployment. Any certificate used for serving HTTPS must have either a Common Name (CN) or a Subject Alternative Name (SAN) that matches the hostname in the request sent by the client.
 
-Note that the CN passed for the subject in the command below is set to `<YOUR_DOMAIN_NAME>`, matching the CNAME record that we just created and the host that is set on the ingress resource.
+For this example, we will use the `certs.sh` script in k8s-example to create the cert pair.
 
 ```sh
-$ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout example-key.pem -out example-cert.pem -subj "/CN=<YOUR_DOMAIN_NAME>/O=datica-example"
+$ ./certs.sh --deployment example --hostname <YOUR_DOMAIN_NAME>
 ```
 
 Once you have generated your key and certificate, upload them to your cluster as a TLS Secret to allow the ingress-controller to make use of them for your ingress resource. The secret must be created in the same namespace that your application will be deployed in, `default` in this case.
 
 ```sh
-$ kubectl --namespace default create secret tls example-tls --cert=./example-cert.pem --key=./example-key.pem
+$ kubectl --namespace default create secret tls example-tls --cert=./example/cert.pem --key=./example/key.pem
 ```
 
 **Step 5**
@@ -125,10 +125,10 @@ can cause Kubernetes to accept the YAML as valid, while also causing the ingress
 
 For the certificate, verify the `secretName` specified in the ingress resource matches the name of a valid TLS Secret in the same namespace. Also make sure that it has a CN or SAN that matches the CNAME DNS record you are using for the application. If it does not, then the ingress-controller will consider it to be an invalid certificate, and will not use it to serve HTTPS.
 
-When debugging ingress, it is always useful to check the logs for the ingress-controller deployment. If a TLS secret is being rejected, the ingress-controller will often log information about the problem. As an example, if a certicate is created with the CN `<YOUR_DOMAIN_NAME>`, but the ingress uses the NLB address as the host, then the ingress controller will reject the certificate on the grounds that it does not have a CN or SAN that matches the route configured for the ingress:
+When debugging ingress, it is always useful to check the logs for the ingress-controller deployment. If a TLS secret is being rejected, the ingress-controller will often log information about the problem. As an example, if a certicate is created with the CN `<YOUR_DOMAIN_NAME>`, but the ingress uses the loab balancer address as the host, then the ingress controller will reject the certificate on the grounds that it does not have a CN or SAN that matches the route configured for the ingress:
 
 ```
-ssl certificate default/example-tls does not contain a Common Name or Subject Alternative Name for host <NLB_Address>. Reason: x509: certificate is valid for <YOUR_DOMAIN_NAME>, not <NLB_Address>
+ssl certificate default/example-tls does not contain a Common Name or Subject Alternative Name for host <LOAD_BALANCER_Address>. Reason: x509: certificate is valid for <YOUR_DOMAIN_NAME>, not <LOAD_BALANCER_Address>
 ```
 
 After updating the ingress resource to use `<YOUR_DOMAIN_NAME>` for the host (and list of hosts under the TLS config) the ingress-controller will detect that an ingress resource has changed, and reload nginx with the new configuration.
