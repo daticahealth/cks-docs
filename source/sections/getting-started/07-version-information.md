@@ -5,7 +5,12 @@ Datica addresses vulnerabilities and security issues as they become publicly ava
 - Kubernetes: 1.13.5
 - CRI-O: 1.13.3
 - etcd: 3.2.18
-- Prometheus: 2.2.0
+- Prometheus:
+  - Operator: v0.29
+  - Prometheus-K8s: v2.6.1
+  - Kube-State-Metrics: v1.2.0
+  - Node-Exporter: v0.15.2
+  - Alert-Manager: v0.14.0
 - Elasticsearch: 6.1.2
 - FluentD: 1.3.3
 - Kibana: 6.1.2
