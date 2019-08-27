@@ -10,7 +10,9 @@ The ingress maps a hostname and path (which could just be / to route all traffic
 The most common way of serving HTTPS on CKS is to set up a TLS definition in your ingress resources. This will tell the ingress-controller to load the specified TLS secret and serve HTTPS for any requests routed to the associated ingress resource. TLS will terminate at the ingress-controller, and from there the request will be routed to the appropriate service over the encrypted cluster network. The [ingress YAML](https://github.com/daticahealth/k8s-example/blob/master/ingress.yaml) from our k8s-example project has an example of how this works. The secret specified in `secretName` must be an existing TLS secret object in the same namespace as the ingress resource. The certificates in the secret may be sourced from any public or private CA you wish to use.
 
 #### Configuration
-To set custom nginx configurations that apply to all ingress resources, you can edit the `nginx-configuration` configmap in the `ingress-nginx` namespace. The ingress-controller will automatically detect that changes have been made, and reload nginx. As an example, here is how you might add custom headers to be returned to the client:
+To set custom nginx configurations that apply to all ingress resources, you can edit the `nginx-configuration` configmap in the `ingress-nginx` namespace. While most resources created by Datica cannot be edited without losing your changes the next time Datica applies an update, any changes made to this configmap will be left untouched. 
+
+As an example, here is how you might add custom headers to be returned to the client on any request going through ingress-nginx:
 
 Create a file called `custom-headers.yaml` with the headers to be applied:
 
@@ -31,12 +33,13 @@ And then apply it to the cluster:
 kubectl apply -f custom-headers.yaml
 ```
 
-Now apply a patch to the `nginx-configuration` configmap that instructs the ingress-controller to add headers to the client response from the new configmap:
+Now apply a patch to the `nginx-configuration` configmap that instructs the ingress-controller to add headers to the client response based on the data in the `custom-headers` configmap:
 
 ```
 kubectl -n ingress-nginx patch configmap nginx-configuration --patch '{"data": {"add-headers": "ingress-nginx/custom-headers"}}'
 ```
 
+The ingress-controller will automatically detect that changes have been made, and reload nginx. 
 Now any request you make over ingress will have the new headers added to the response. Note that while the ingress-controller monitors chagnes to the `nginx-configuration` configmap, at this time it does not watch for changes to the configmaps specified by either the `add-headers` or `proxy-set-headers` configurations. In order to see the effect of new changes made to the `custom-headers` configmap, you will need to manually restart the ingress-controller pods, like so:
 
 ```
@@ -53,5 +56,5 @@ kubectl -n ingress-nginx get po -w
 kubectl -n ingress-nginx delete po <SECOND_POD_NAME>
 ```
 
-#### Other
+#### Note
 It is important to note that when creating resources on Kubernetes, it is imperative to always use Datica-provided networking solutions. In particular, *do not use the host network* for resources (such as the setting `hostNetwork: true`) as this can result in unencrypted traffic. ALWAYS use Datica's provided ingress.
