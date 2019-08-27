@@ -43,10 +43,8 @@ kubectl -n ingress-nginx patch configmap nginx-configuration \
 The ingress-controller will automatically detect that changes have been made, and reload nginx. Updates to the configmaps referenced by either the `add-headers` or `proxy-set-headers` configurations are not monitored, however. In order to see the effect of new changes made to the `custom-headers` configmap, you will need to manually restart the ingress-controller pods, like so:
 
 ```
-# Update custom-headers configmap
-
 kubectl -n ingress-nginx get po
-# Selects first nginx-ingress-controller pod
+# Select first nginx-ingress-controller pod
 
 kubectl -n ingress-nginx delete po <FIRST_POD_NAME>
 
@@ -59,7 +57,7 @@ kubectl -n ingress-nginx delete po <SECOND_POD_NAME>
 For a full list of available configurations, reference the [NGINX Ingress Controller configmap documentation](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/)
 
 #### Ingress Configurations
-Individual ingress resources can also be configured via annotations. For instance, if you wanted to expose multiple services over the same hostname you might assign one ingress resource the path `/app1` and the second ingress resource the path `/app2`. But unless both apps are expecting their respective path prefixes, they will not know how the handle the request. To get around this, you can add the annotation `nginx.ingress.kubernetes.io/rewrite-target: "/"` to both ingress resources. This will instruct NGINX the remove the path prefix from the request before proxying to your services.
+Individual ingress resources can also be configured via annotations. For instance, if you wanted to expose multiple services over the same hostname you might assign one ingress resource the path `/app1` and the second ingress `/app2`. But unless both apps are expecting their respective path prefixes, they will not know how the handle the request. To get around this, you can add the annotation `nginx.ingress.kubernetes.io/rewrite-target: "/"` to both ingress resources. This will instruct NGINX the remove the path prefix from the request before proxying to your services.
 
 For a full list of available annotations, reference the [NGINX Ingress Controller annotaion documentation](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/)
 
