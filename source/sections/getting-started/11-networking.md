@@ -9,10 +9,10 @@ The ingress maps a hostname and path (which could just be / to route all traffic
 #### Managing TLS Certificates
 The most common way of serving HTTPS on CKS is to set up a TLS definition in your ingress resources. This will tell the ingress-controller to load the specified TLS secret and serve HTTPS for any requests routed to the associated ingress resource. TLS will terminate at the ingress-controller, and from there the request will be routed to the appropriate service over the encrypted cluster network. The [ingress YAML](https://github.com/daticahealth/k8s-example/blob/master/ingress.yaml) from our k8s-example project has an example of how this works. The secret specified in `secretName` must be an existing TLS secret object in the same namespace as the ingress resource. The certificates in the secret may be sourced from any public or private CA you wish to use.
 
-#### Configuration
+#### Global Configurations
 To set custom nginx configurations that apply to all ingress resources, you can edit the `nginx-configuration` configmap in the `ingress-nginx` namespace. While most resources created by Datica cannot be edited without losing your changes the next time Datica applies an update, any changes made to this configmap will be left untouched. 
 
-As an example, here is how you might add custom headers to be returned to the client on any request going through ingress-nginx:
+As an example, here is how you might add custom headers to be returned to the client on any request proxied through ingress-nginx:
 
 Create a file called `custom-headers.yaml` with the headers to be applied:
 
@@ -27,7 +27,7 @@ metadata:
   namespace: ingress-nginx
 ```
 
-And then apply it to the cluster:
+Apply the new configmap to the cluster:
 
 ```
 kubectl apply -f custom-headers.yaml
@@ -39,8 +39,7 @@ Now apply a patch to the `nginx-configuration` configmap that instructs the ingr
 kubectl -n ingress-nginx patch configmap nginx-configuration --patch '{"data": {"add-headers": "ingress-nginx/custom-headers"}}'
 ```
 
-The ingress-controller will automatically detect that changes have been made, and reload nginx. 
-Now any request you make over ingress will have the new headers added to the response. Note that while the ingress-controller monitors chagnes to the `nginx-configuration` configmap, at this time it does not watch for changes to the configmaps specified by either the `add-headers` or `proxy-set-headers` configurations. In order to see the effect of new changes made to the `custom-headers` configmap, you will need to manually restart the ingress-controller pods, like so:
+The ingress-controller will automatically detect that changes have been made, and reload nginx. Updates to the configmaps referenced by either the `add-headers` or `proxy-set-headers` configurations are not monitored, however. In order to see the effect of new changes made to the `custom-headers` configmap, you will need to manually restart the ingress-controller pods, like so:
 
 ```
 # Update custom-headers configmap
@@ -55,6 +54,13 @@ kubectl -n ingress-nginx get po -w
 
 kubectl -n ingress-nginx delete po <SECOND_POD_NAME>
 ```
+
+For a full list of available configurations, reference the [NGINX Ingress Controller configmap documentation](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/)
+
+#### Ingress Configurations
+Individual ingress resources can also be configured via annotations. For instance, if you wanted to expose multiple services over the same hostname you might assign one ingress resource the path `/app1` and the second ingress resource the path `/app2`. But unless both apps are expecting their respective path prefixes, they will not know how the handle the request. To get around this, you can add the annotation `nginx.ingress.kubernetes.io/rewrite-target: "/"` to both ingress resources. This will instruct NGINX the remove the path prefix from the request before proxying to your services.
+
+For a full list of available annotations, reference the [NGINX Ingress Controller annotaion documentation](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/)
 
 #### Note
 It is important to note that when creating resources on Kubernetes, it is imperative to always use Datica-provided networking solutions. In particular, *do not use the host network* for resources (such as the setting `hostNetwork: true`) as this can result in unencrypted traffic. ALWAYS use Datica's provided ingress.
