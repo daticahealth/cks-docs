@@ -33,10 +33,11 @@ Apply the new configmap to the cluster:
 kubectl apply -f custom-headers.yaml
 ```
 
-Now apply a patch to the `nginx-configuration` configmap that instructs the ingress-controller to add headers to the client response based on the data in the `custom-headers` configmap:
+Now apply a patch to the `nginx-configuration` configmap that instructs the ingress-controller to retrieve headers from the `custom-headers` configmap:
 
 ```
-kubectl -n ingress-nginx patch configmap nginx-configuration --patch '{"data": {"add-headers": "ingress-nginx/custom-headers"}}'
+kubectl -n ingress-nginx patch configmap nginx-configuration \
+  --patch '{"data": {"add-headers": "ingress-nginx/custom-headers"}}'
 ```
 
 The ingress-controller will automatically detect that changes have been made, and reload nginx. Updates to the configmaps referenced by either the `add-headers` or `proxy-set-headers` configurations are not monitored, however. In order to see the effect of new changes made to the `custom-headers` configmap, you will need to manually restart the ingress-controller pods, like so:
