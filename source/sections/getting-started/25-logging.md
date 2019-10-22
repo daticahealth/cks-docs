@@ -18,6 +18,6 @@ kubectl -n kube-system patch pvc elasticsearch-data-es-client-0 --patch='{"spec"
 kubectl -n kube-system patch pvc elasticsearch-data-es-client-1 --patch='{"spec": {"resources": {"requests": {"storage": "<NEW VOLUME SIZE>Gi"}}}}'
 ```
 
-As of Kubernetes 1.15, the ExpandInUsePersistentVolumes feature is enabled by default, so the volumes will expand their filesystems without any further action. In previous versions of Kubernetes, the associated pods would need to be deleted in order to expand the filesystem once the EBS resize completed.
+As of Kubernetes 1.15, the ExpandInUsePersistentVolumes feature is enabled by default, so the volumes will expand their filesystems without any further action.
 
 If the available burst balance is continually drained due to high logging throughput, then the Elasticsearch volumes will need to be overprovisioned such that burst balance is no longer a factor. EBS volumes with a capacity of 1TB or more do not have a burst balance, since they generate enough IOPS to replenish burst before it can be used. Expanding your elasticsearch-data-es-client PVCs to 1000Gi will eliminate the IOPS bottleneck from the system, and significantly increase the number of logs that can be handled by the logging stack.
