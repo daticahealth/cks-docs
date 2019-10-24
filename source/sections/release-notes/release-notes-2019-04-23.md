@@ -2,7 +2,3 @@
 
 #### Updates
 This release updates all components of kubernetes to 1.13.5, and 1.13.3 for CRI-O. All Datica deployed components will now make use of pod priority policies to ensure core cluster and compliance pods will not be evicted when a node runs out of resources. Also included in this release is an update to the blockstoragebackup cronjob to ensure that it is only snapshotting volumes attached to nodes of the cluster, rather than snapshotting all volumes in the region.
-
-#### Customer Support:
-
-- In order to tend to your support issue in a timely manner, please submit your ticket through the [Platform dashboard](https://product.datica.com) by clicking on the “Contact Support” button located in the footer of the Environment UI. This provides valuable metadata to the support staff, which allow them to triage the issue much quicker.
