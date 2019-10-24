@@ -16,7 +16,7 @@ Currently, CKS is only supported in AWS. CKS clusters makes use of the following
 * S3 Buckets
 * ELB
 * NLB
-* m5.xlarge EC2 Instances
+* EC2 Instances
 * Elastic IP Addresses (one per NAT Gateway)
 * EBS Volumes (and snapshots)
 
@@ -27,7 +27,7 @@ For cost estimation, a standard CKS cluster will use the following minimum resou
 * 1 Elastic IP per Availability Zone (varies per region)
 * 1 ELB
 * 1 NLB
-* 2 S3 buckets
+* 3 S3 buckets
 * 1 Private Hosted Zone in Route53
 * 1 VPC
 
