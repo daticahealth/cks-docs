@@ -1,5 +1,6 @@
 ### Cloud Resources
 Currently, CKS is only supported in AWS. CKS clusters makes use of the following resources:
+
 - IAM Policies
 - IAM Profiles
 - IAM Roles
@@ -21,6 +22,7 @@ Currently, CKS is only supported in AWS. CKS clusters makes use of the following
 - EBS Volumes (and snapshots)
 
 For cost estimation, a standard CKS cluster will use the following minimum resources:
+
 - 6 m5.xlarge EC2 Instances
 - Various EBS volumes, using around 500 GiB of GP2 storage, and a small amount of standard storage.
 - 4 EBS snapshots per volume (1 per day, stored for two days and region-replicated)
