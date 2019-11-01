@@ -34,3 +34,6 @@ For cost estimation, a standard CKS cluster will use the following minimum resou
 - 1 VPC
 
 The costs of these resources may vary based on network usage, customer deployments, and any customizations that are made to the cluster.
+
+### AWS Instance Retirement
+Occasionally, AWS may schedule an EC2 instance used by your cluster for [retirement](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-retirement.html). When this happens, you should stop the EC2 instance, then start it again. Starting the stopped instance migrates it to new hardware, resolving the issue.
