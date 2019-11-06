@@ -1,0 +1,4 @@
+### VPC Peering with the CKS VPC
+Some applications require additional AWS resources beyond what is provisioned with CKS. For example, your application might store data in RDS. To maintain logical separation between Datica-managed resources and resources you manage, it is best to provision these resources in a separate VPC, then create a peering connection between the two VPCs. 
+
+VPC peering with CKS works just like any other VPC peering. You can follow the instructions in [Amazon's guide for creating a VPC peering connection](https://docs.aws.amazon.com/vpc/latest/peering/create-vpc-peering-connection.html). You may add routes to the route tables created for CKS or attach additional security groups and rules to instances as needed.
