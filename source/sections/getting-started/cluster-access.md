@@ -25,6 +25,8 @@ Before deploying your workloads onto your new Kubernetes cluster. You'll want to
 
 * Logging access: kubectl port-forward -n logging service/kibana 8001:5601 - In your browser, the kibana dashboard can be accessed at the following url: http://localhost:8001
 * Monitoring access: kubectl port-forward -n monitoring service/grafana 8002:3000 - In your browser, the grafana dashboard can be accessed at the following url: http://localhost:8002
+* Metrics access: kubectl port-forward -n monitoring service/prometheus-k8s 8003:9090 - In your browser, the prometheus dashbaord can be accessed at the following url: http://localhost:8003
+* Alerting access: kubectl port-forward -n monitoring service/alertmanager-main 8004:9093 - In your browser, the alertmanager dashboard can be accessed at the following url: http://localhost:8004
 
 *IMPORTANT* You should always make an effort to use kubectl authenticated with your Datica account credentials. However, sometimes you may want or need to use tools that require system roles. These types of tools cannot make use of Datica's webhook authentication/authorization. You must make use of Kubernetes RBAC functionality. Since this is in your application space, you will be responsible for proving and ensuring the security and compliance of the roles you set up in accordance with your own company policies.
 
@@ -52,6 +54,15 @@ To give a group access to view logging, use the following ACL string: `product:c
 To give a group full access to a specific namespace, use an ACL string like this: `product:cluster:mycluster:action:*:examplenamespace:*:*`. This ACL string will provide users in the group complete access to the "examplenamespace" namespace.
 
 ### Limiting Application Access
+
+#### Pod Security Policies
+
+CKS allows customers to optionally make use of Kubernetes’ [PodSecurityPolicy](https://kubernetes.io/docs/concepts/policy/pod-security-policy/) admission controller to manage the security context within which pods are allowed to run. CKS provides a default PodSecurityPolicy with extremely limited permissions that can be used to run your workloads. If you have pods which require greater permissions than those defined in the default PodSecurityPolicy, you will need to define your own PodSecurityPolicy and authorize the ServiceAccount that creates the pod to make use of it. The Kubernetes documentation linked above has instructions for doing so.
+
+Please contact Datica Support if you wish to enable this feature.
+
+
+#### Cross-Application Communication
 
 Developers may come across use cases in which an application will require talking to another component within CKS. For example, a CI/CD pipeline using [Jenkins](https://www.linux.com/blog/learn/chapter/Intro-to-Kubernetes/2017/6/set-cicd-pipeline-jenkins-pod-kubernetes-part-2)  or [Gitlab](https://about.gitlab.com/2017/09/21/how-to-create-ci-cd-pipeline-with-autodeploy-to-kubernetes-using-gitlab-and-helm/) that deploys directly into a cluster will require interacting with the API server. In these cases, you should [create a dedicated serviceaccount](https://itnext.io/the-abc-of-kubernetes-access-control-e7d280af5c88) with permissions limited to only what your application requires.
 
