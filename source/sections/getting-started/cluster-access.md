@@ -45,7 +45,9 @@ Kubernetes ACLs can be constructed using the following sections, separated by:
 When completely assembled, the string should look something like product:cluster:[cluster-name]:action:*:[namespace]:[resource]:[verb]
 
 ACL String Examples:
-To give a group access to retrieve the pods from a specific namespace, use the following ACL string: `product:cluster:mycluster:action:*:examplenamespace:pods:list`. This ACL string will provide users in this group access to list pods in the "examplenamespace" namespace using kubectl like `kubectl -n examplenamespace get pods`. 
+To give a group access to retrieve the pods from a specific namespace, use the following ACL string: `product:cluster:mycluster:action:*:examplenamespace:pods:list`. This ACL string will provide users in this group access to list pods in the "examplenamespace" namespace using kubectl like `kubectl -n examplenamespace get pods`.
+
+Some resources in Kubernetes are not "namespaced", meaning they are general cluster resources rather than belonging to a single namespace. In order to grant access to non-namespaced resources, use `*` for the namespace section in the ACL. For instance, to grant access to listing all namespaces within a cluster, use the following ACL string: `product:cluster:mycluster:action:*:*:namespaces:list`. This ACL string will allow users in this group to run `kubectl get namespaces`.
 
 To give a group access to view monitoring, use the following ACL string: `product:cluster:mycluster:action:*:monitoring:*`. This ACL string will provide users in this group access to retrieve all resources that are in the "monitoring" namespace.
 
