@@ -1,7 +1,7 @@
-### Grafana Dashboards
+### Custom Grafana Dashboards
 _Note:_ Grafana access does not require any credentials, you will just need to have sufficient permissions on the Kubernetes cluster to view and edit resources in the monitoring namespace of your cluster.
 
-#### Custom Dashboard installation
+#### Dashboard Installation
 The steps below explain how to add a custom Grafana Dashboard to your cluster. Before starting, create your Grafana dashboard and export it as JSON (Refer to the [Grafana documentation](https://grafana.com/docs/reference/export_import/#discover-dashboards-on-grafana-com) for more information).
 
 **Step 1**
