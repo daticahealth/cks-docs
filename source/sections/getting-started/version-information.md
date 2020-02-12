@@ -4,7 +4,7 @@ Datica addresses vulnerabilities and security issues as they become publicly ava
 - CoreOS: 2191.5.0
 - Kubernetes: 1.15.5
 - CRI-O: 1.15.2
-- etcd: 3.2.18
+- etcd: 3.4.3
 - Prometheus:
   - [Operator: v0.29](https://github.com/coreos/prometheus-operator/tree/v0.29.0/Documentation)
   - [Prometheus-K8s: v2.6.1](https://github.com/prometheus/prometheus/tree/v2.6.1/docs)
@@ -18,5 +18,5 @@ Datica addresses vulnerabilities and security issues as they become publicly ava
 - ClamAV: 0.100.3
 - Flannel: 0.11.0
 - Nginx Ingress Controller: 0.25.1
-- CoreDNS: 1.0.6
+- CoreDNS: 1.6.6
 - Wazuh: 3.6.1
