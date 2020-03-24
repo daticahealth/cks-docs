@@ -33,28 +33,28 @@ After you've got a cluster stood up using one of the three options above, the ne
 
 Deployments help users manage replicated pods by allowing for easy modification of configuration. Having control over this configuration allows for Kubernetes to manage updates between application versions, and maintenance of historical events.
 
-[More information on Deployments »](https://v1-11.docs.kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+[More information on Deployments »](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
 
 **Pods**
 
 Pods are the smallest unit of scheduling in the world of Kubernetes. Pods typically contain a number of tightly coupled containers. These containers typically share a common network or perhaps a specific configuration. Pods are almost always created via Deployments in Kubernetes.
 
-[More information on Pods »](https://v1-11.docs.kubernetes.io/docs/concepts/workloads/pods/pod/)
+[More information on Pods »](https://kubernetes.io/docs/concepts/workloads/pods/pod/)
 
 **StatefulSets**
 
 StatefulSets are specialized pod controllers that allow for better control over stable and unique network identifiers, persistent storage, graceful deployments and scaling. The primary use case for StatefulSets is in managing databases and persistent storage objects within Kubernetes.
 
-[More information on StatefulSets »](https://v1-11.docs.kubernetes.io/docs/concepts/workloads/controllers/statefulset/)
+[More information on StatefulSets »](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/)
 
 **DaemonSets**
 
 Like StatefulSets, DaemonSets are specialized pod controllers that allow for an instance of a pod to run on a set of specified nodes. Datica uses DaemonSets for managing logging, monitoring and other compliance related tooling.
 
-[More information on DaemonSets »](https://v1-11.docs.kubernetes.io/docs/concepts/workloads/controllers/daemonset/)
+[More information on DaemonSets »](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/)
 
 **Other Resources**
 
-- [Kubectl cheat sheet](https://v1-11.docs.kubernetes.io/docs/reference/kubectl/cheatsheet/)
+- [Kubectl cheat sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
 - [CNCF recorded events](https://www.cncf.io/community/recorded-events/)
 - [CNCF youtube channel](https://www.youtube.com/channel/UCvqbFHwN-nwalWPjPUKpvTA)
