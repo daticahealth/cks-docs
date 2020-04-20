@@ -5,7 +5,7 @@ Once we've provisioned your new cluster, we'll grant you access to that cluster.
 We'll create an organization on your behalf using the legal business name collected above. This organization lives within Datica's centralized authentication system. This system is responsible for managing users and cluster access.
 After we've created the organization, you'll be sent an invite to your email on file (as well as any other administrators). Use this email to activate your account.
 
-Once you've activated your account, you'll need to download and install the Datica datikube CLI utility. You can download the package and view instructions for installation here.
+Once you've activated your account, you'll need to download and install the Datica datikube CLI utility. You can download the package and view instructions for installation [here](https://github.com/daticahealth/datikube/releases).
 
 Once you've installed datikube, you'll need three pieces of information:
 
