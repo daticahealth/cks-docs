@@ -35,5 +35,5 @@ A full listing of example audit rules that are enabled by default can be found [
 
 By default this feature is disabled, some caveats that should be acknowledged prior to requesting to enable:
 * Significant increase in required size of logging volumes and increased likelihood of needing to increase logging volume storage across all nodes. If those volumes are not actively monitored and they fill up they can cause service interruption by preventing unrelated pods from starting properly.
-* Moderate increase on the load of elasticsearch, increased index sizes which could mean sligt performance degredation if not addressed.
+* Moderate increase on the load of elasticsearch, increased index sizes which could mean slight performance degredation of elasticsearch if not addressed.
 * Moderate increase on the volume of logs stored in s3, which will likely cost more depending on your [AWS S3 Pricing](https://aws.amazon.com/s3/pricing/)
