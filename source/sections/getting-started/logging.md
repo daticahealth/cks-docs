@@ -31,7 +31,7 @@ Any cluster can also have CKS host kernel-level audit logging enabled, which wil
 * Network Environment Changes
 * Systemd Changes/Operations
 
-A full listing of example audit rules that are enabled by default can be found [here](https://github.com/Neo23x0/auditd/blob/master/audit.rules), however we have disabled some due to not be applicable. 
+A full listing of example audit rules that are enabled by default can be found [here](https://github.com/Neo23x0/auditd/blob/master/audit.rules), however we have disabled some of these on CKS hosts due to not being applicable. 
 
 By default this feature is disabled, some caveats that should be acknowledged prior to requesting to enable:
 * Significant increase in required size of logging volumes and increased likelihood of needing to increase logging volume storage across all nodes. If those volumes are not actively monitored and they fill up they can cause service interruption by preventing unrelated pods from starting properly.
