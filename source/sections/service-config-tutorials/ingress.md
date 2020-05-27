@@ -95,11 +95,30 @@ Since the certificate we created is self-signed, any modern browser will tell yo
 
 If you have deployed the `nginxdemos/hello` image, it will display a page with some information about the server it is running on. Since the container is running in a Kubernetes pod the `Server Address` and `Server Name` will be the IP and name of the pod, rather than the external IP and name of the load balancer or the host you have configured for ingress. This is because Kubernetes and ingress-nginx abstract networking away from the container. From the container's point of view, the pod is the host that it lives on.
 
+#### Default SSL Certificate Configuration
+
+By default, the ingress-controller uses a `Kubernetes Ingress Controller Fake Certificate` which is a self-signed certificate used to serve HTTPS for any routes that do not have a valid TLS configuration. This makes it much harder for clients to verify the origin or validate the authenticity of the server. This could lead to clients ignoring certificate validation when interacting with the server and thus making them more vulnerable to an attacker impersonating the server to perform a man-in-the-middle (MiTM) attack.
+
+For better security posture, we recommend configuring a [default-ssl-certificate](https://kubernetes.github.io/ingress-nginx/user-guide/tls/#default-ssl-certificate). This can be configured by editing an auto-created tls secret called `default-ssl-certificate` in the `ingress-nginx` namespace that the ingress controller will automatically pick up and use. Base64 encode your certificate and key, and edit the existing `default-ssl-certificate` secret in the `ingress-nginx` namespace with your encoded certificate and key strings:
+
+```bash
+$ kubectl -n ingress-nginx edit secret default-ssl-certificate
+
+  data:
+++  tls.crt: "<ENCODED_CERTIFICATE_STRING>"
+++  tls.key: "<ENCODED_KEY_STRING>"
+```
+
+Then Rollout your ingress deployment for the new default cert to be used:
+
+```bash
+$ kubectl -n ingress-nginx rollout restart deploy/nginx-ingress-controller
+```
+
 #### Common Problems
 
 **Ingress-controller is serving "Kubernetes Ingress Controller Fake Certificate" instead of the configured certificate**
-
-The `Kubernetes Ingress Controller Fake Certificate` is a self-signed certificate used in the ingress-controller to serve HTTPS for any routes that do not have a valid TLS configuration. If your ingress has TLS defined but you are still seeing the wrong certificate when visiting the site, then it is likely that there is something misconfigured in your ingress resource, or in your certificate.
+If your ingress has TLS and/or a default-ssl-certificate defined but you are still seeing the wrong certificate when visiting the site, then it is likely that there is something misconfigured in your ingress resource, or in your certificate.
 
 For the ingress resource check closely to make sure there are no typos in the TLS config, and that the CNAME is set as the host for the route and is in the list of hosts for the TLS config. A small error, such as:
 
