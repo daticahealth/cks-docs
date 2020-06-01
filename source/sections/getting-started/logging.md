@@ -21,3 +21,17 @@ kubectl -n kube-system patch pvc elasticsearch-data-es-client-1 --patch='{"spec"
 As of Kubernetes 1.15, the ExpandInUsePersistentVolumes feature is enabled by default, so the volumes will expand their filesystems without any further action.
 
 If the available burst balance is continually drained due to high logging throughput, then the Elasticsearch volumes will need to be overprovisioned such that burst balance is no longer a factor. EBS volumes with a capacity of 1TB or more do not have a burst balance, since they generate enough IOPS to replenish burst before it can be used. Expanding your elasticsearch-data-es-client PVCs to 1000Gi will eliminate the IOPS bottleneck from the system, and significantly increase the number of logs that can be handled by the logging stack.
+
+#### Audit 
+Any cluster can also have CKS host kernel-level audit logging enabled, these logs will be treated the same as application logs (sent to S3 on for the life of the cluster and indexed in Elasticsearch for 5 days). Please submit a support ticket if you would like this feature enabled, make sure to take a look at the caveats below prior to creating your request. These audit logs include but are not limited to:
+* Kernel Parameter/Module Modifications
+* Mount Operations
+* Cron Scheduling
+* Sudoers, Passwd, User, Group, Password Database Changes
+* Network Environment Changes
+* Systemd Changes/Operations
+
+By default this feature is disabled. Before requesting that this be enabled, please review the following caveats:
+* High likelihood of needing to increase logging volume storage across all nodes. If those volumes are not actively monitored and they fill up, they can cause service interruption by preventing unrelated pods from starting properly.
+* Moderate increase on the load of Elasticsearch, increased index sizes which could mean slight performance degredation of Elasticsearch if not addressed.
+* Moderate increase on the volume of logs stored in S3, which will likely cost more depending on your [AWS S3 Pricing](https://aws.amazon.com/s3/pricing/)
