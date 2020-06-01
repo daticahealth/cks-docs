@@ -47,7 +47,7 @@ To better understand CKS, it will help to briefly review Datica's Legacy Platfor
 
 The path of least resistance to the cloud has traditionally involved utilizing a Platform as a Service (PaaS). A PaaS allows users to focus on application development, rather than the repetitive, lower-level tasks of managing workloads on a server. [We've written extensively about PaaS offerings](https://datica.com/blog/kubernetes-vs-paas/) and encourage users to read through these articles.
 
-In 2014 when Datica built it's first product we did so with the assumption that PaaS was the future of application development and management in the cloud. While that turned out to be true to a certain extent, concepts like containerization and projects like Kubernetes have disrupted that thinking. Software has become too complex for PaaS. Organizations are growing and their use cases require more flexibility. As a result of this shift, Datica embarked on creating a compliant Kubernetes offering in late 2017.
+In 2014 when Datica built its first product we did so with the assumption that PaaS was the future of application development and management in the cloud. While that turned out to be true to a certain extent, concepts like containerization and projects like Kubernetes have disrupted that thinking. Software has become too complex for PaaS. Organizations are growing and their use cases require more flexibility. As a result of this shift, Datica embarked on creating a compliant Kubernetes offering in late 2017.
 
 Our goals for CKS were straight forward:
 
