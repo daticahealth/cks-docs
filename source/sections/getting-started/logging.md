@@ -23,7 +23,7 @@ As of Kubernetes 1.15, the ExpandInUsePersistentVolumes feature is enabled by de
 If the available burst balance is continually drained due to high logging throughput, then the Elasticsearch volumes will need to be overprovisioned such that burst balance is no longer a factor. EBS volumes with a capacity of 1TB or more do not have a burst balance, since they generate enough IOPS to replenish burst before it can be used. Expanding your elasticsearch-data-es-client PVCs to 1000Gi will eliminate the IOPS bottleneck from the system, and significantly increase the number of logs that can be handled by the logging stack.
 
 #### Audit 
-Any cluster can also have CKS host kernel-level audit logging enabled, which will be treated the same as application logs (sent to s3 on for the life of the cluster and indexed in elasticsearch for 5 days). Please submit a support ticket if you would like this feature enabled, make sure to take a look at the caveats below prior to creating your request. These audit logs include but are not limited to:
+Any cluster can also have CKS host kernel-level audit logging enabled, these los will be treated the same as application logs (sent to S3 on for the life of the cluster and indexed in Elasticsearch for 5 days). Please submit a support ticket if you would like this feature enabled, make sure to take a look at the caveats below prior to creating your request. These audit logs include but are not limited to:
 * Kernel Parameter/Module Modifications
 * Mount Operations
 * Cron Scheduling
@@ -31,9 +31,7 @@ Any cluster can also have CKS host kernel-level audit logging enabled, which wil
 * Network Environment Changes
 * Systemd Changes/Operations
 
-A full listing of example audit rules that are enabled by default can be found [here](https://github.com/Neo23x0/auditd/blob/master/audit.rules), however we have disabled some of these on CKS hosts due to not being applicable. 
-
-By default this feature is disabled, some caveats that should be acknowledged prior to requesting to enable:
+By default this feature is disabled. Before requesting that this be enabled, please review the following caveats:
 * Significant increase in required size of logging volumes and increased likelihood of needing to increase logging volume storage across all nodes. If those volumes are not actively monitored and they fill up they can cause service interruption by preventing unrelated pods from starting properly.
-* Moderate increase on the load of elasticsearch, increased index sizes which could mean slight performance degredation of elasticsearch if not addressed.
-* Moderate increase on the volume of logs stored in s3, which will likely cost more depending on your [AWS S3 Pricing](https://aws.amazon.com/s3/pricing/)
+* Moderate increase on the load of Elasticsearch, increased index sizes which could mean slight performance degredation of Elasticsearch if not addressed.
+* Moderate increase on the volume of logs stored in S3, which will likely cost more depending on your [AWS S3 Pricing](https://aws.amazon.com/s3/pricing/)
