@@ -23,7 +23,7 @@ As of Kubernetes 1.15, the ExpandInUsePersistentVolumes feature is enabled by de
 If the available burst balance is continually drained due to high logging throughput, then the Elasticsearch volumes will need to be overprovisioned such that burst balance is no longer a factor. EBS volumes with a capacity of 1TB or more do not have a burst balance, since they generate enough IOPS to replenish burst before it can be used. Expanding your elasticsearch-data-es-client PVCs to 1000Gi will eliminate the IOPS bottleneck from the system, and significantly increase the number of logs that can be handled by the logging stack.
 
 #### Audit 
-Any cluster can also have CKS host kernel-level audit logging enabled, these los will be treated the same as application logs (sent to S3 on for the life of the cluster and indexed in Elasticsearch for 5 days). Please submit a support ticket if you would like this feature enabled, make sure to take a look at the caveats below prior to creating your request. These audit logs include but are not limited to:
+Any cluster can also have CKS host kernel-level audit logging enabled, these logs will be treated the same as application logs (sent to S3 on for the life of the cluster and indexed in Elasticsearch for 5 days). Please submit a support ticket if you would like this feature enabled, make sure to take a look at the caveats below prior to creating your request. These audit logs include but are not limited to:
 * Kernel Parameter/Module Modifications
 * Mount Operations
 * Cron Scheduling
