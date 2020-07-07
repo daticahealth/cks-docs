@@ -12,7 +12,7 @@ This release includes several versioning updates and new features:
   - [Grafana v7.0.3](https://community.grafana.com/t/release-notes-v7-0-x/29381)
   - Updated list of Grafana Dashboards compatible with Kubernetes 1.17.3
   - Updated list of Default Prometheus Alerts compatible with Kubernetes 1.17.3
-- Updated ClamAV Deployment
+- Updated ClamAV Daemonset
   - [ClamAV v0.102.3](https://blog.clamav.net/2020/05/clamav-01023-security-patch-released.html)
   - Increased Memory Limit to 2Gi and CPU Limit to 1
 - [Image Garbage Collection](https://cks-docs.datica.com/#ImageGarbageCollection) threshold increased from 15% to 20% to help cleanup image volume sooner
