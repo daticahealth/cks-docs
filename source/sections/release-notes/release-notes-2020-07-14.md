@@ -17,5 +17,5 @@ This release includes several versioning updates and new features:
   - Increased Memory Limit to 2Gi and CPU Limit to 1
 - [Image Garbage Collection](https://cks-docs.datica.com/#ImageGarbageCollection) threshold increased from 15% to 20% to help cleanup image volume sooner
 - An hourly etcd kubernetes cronjob in the `kube-system` namespace is scheduled to create and upload a snapshot to S3, with a default 7 day retention period for disaster recovery
-- Several operational Bugfixes
-- Several Security-related Bugfixes
+- Several operational bugfixes
+- Several security-related bugfixes
