@@ -1,5 +1,5 @@
 ### Custom Grafana Dashboards
-_Note:_ Grafana access does not require any credentials, you will just need to have sufficient permissions on the Kubernetes cluster to view and edit resources in the monitoring namespace of your cluster.
+_Note:_ The latest Grafana version that has been deployed to CKS clusters has authentication enabled. The username and password to log in are both "admin". Grafana will ask you to change this password, but changes will not persist. You can simply skip the password changing screen. This does not affect the security of your Grafana dashboards, as access to the dashboards still requires the appropriate cluster access to view and edit resources in the monitoring namespace of your cluster.
 
 #### Dashboard Installation
 The steps below explain how to add a custom Grafana Dashboard to your cluster. Before starting, create your Grafana dashboard and export it as JSON (Refer to the [Grafana documentation](https://grafana.com/docs/reference/export_import/#discover-dashboards-on-grafana-com) for more information).
