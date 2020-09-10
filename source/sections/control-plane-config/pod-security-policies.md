@@ -1,7 +1,7 @@
 ### Pod Security Policies
 CKS supports enabling the PodSecurityPolicies admission controller. PodSecurityPolicies provide a way for cluster administrators to define a set of security criteria that a pod must meet in order to be accepted by the system. These include things like restricting the users a container can run as, allowing different types of volume mounts (secrets, configmaps, hostPath, etc.), and using the host network. A full list of available controls can be found [here](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#what-is-a-pod-security-policy).
 
-CKS creates a default PodSecurityPolicy that is bound to all ServiceAccounts, meaining any Pod can use it out of the box. The default PSP requires that all containers run as non-root, and does not allow privileged containers or any special capabilities, like CAP_NET_ADMIN. Any pod that meets these criteria will be admitted automatically without additional configuration. Pods that do not match the default criteria will need to be explicitly granted permission to use a PSP that allows the required priviledges. To use a PSP, a pod's ServiceAccount needs to be granted the `use` verb on the PSP resource [via RBAC](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#via-rbac).
+CKS creates a default PodSecurityPolicy that is bound to all ServiceAccounts, meaining any Pod can use it out of the box. The default PSP requires that all containers run as non-root, and does not allow privileged containers or any special capabilities, like CAP_NET_ADMIN. Any pod that meets these criteria will be admitted automatically without additional configuration. Pods that do not match the default criteria will need to be explicitly granted permission to use a PSP that allows the required privileges. To use a PSP, a pod's ServiceAccount needs to be granted the `use` verb on the PSP resource [via RBAC](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#via-rbac).
 
 A pod that is allowed to use multiple PSPs will follow [this policy order](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#policy-order) to choose between them. Once a pod is created, its PSP will not change. The pod does not get permissions from all PSPs that it is allowed to use, it selects one PSP and must conform to its rules in order to be admitted to the cluster. This can cause some unexpected behavior in certain situations when a pod has implicit requirements not specified in the initial pod YAML.
 
@@ -11,7 +11,7 @@ PodSecurityPolicies are an advanced security feature of Kubernetes, and were ori
 
 #### Pod Security Policy FAQs
 
-**Q:** I run a workload in my cluster that runs as `root` within a container, or specify a priveleged securityContext and am getting the following warning event message from the pod that runs this container:
+**Q:** I run a workload in my cluster that runs as `root` within a container, or specify a privileged securityContext and am getting the following warning event message from the pod that runs this container:
 
 ```bash
 Error: container has runAsNonRoot and image will run as root
